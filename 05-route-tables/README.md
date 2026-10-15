@@ -34,11 +34,8 @@ $ python route_check.py audit examples/as-found.json       # exit code 1 on any 
 
 VPC `10.10.0.0/16` in eu-west-1, four tiers in two Availability Zones, described in [`examples/bank-vpc.json`](examples/bank-vpc.json).
 
-<a href="diagrams/bank-vpc-routing-fixed.drawio.svg">
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="diagrams/dark/bank-vpc-routing-fixed.drawio.svg">
-  <img alt="Bank VPC with one route table per tier and zone, linked to the internet gateway and NAT gateways" src="diagrams/bank-vpc-routing-fixed.drawio.svg">
-</picture>
+<a href="diagrams/dark/bank-vpc-routing-fixed.drawio.svg">
+  <img alt="Bank VPC with one route table per tier and zone, linked to the internet gateway and NAT gateways" src="diagrams/dark/bank-vpc-routing-fixed.drawio.svg">
 </a>
 
 Select the diagram to open it full size. The editable source is [`diagrams/bank-vpc-routing.drawio`](diagrams/bank-vpc-routing.drawio), with a second page for the as-found VPC below.
@@ -102,11 +99,8 @@ The tool uses `203.0.113.10`, a documentation address (RFC 5737), to stand for t
 
 [`examples/as-found.json`](examples/as-found.json) puts several of the exercise's faults in one VPC: the layout a default VPC gives you, where the main route table sends `0.0.0.0/0` to the internet gateway, used for a bank's tiers.
 
-<a href="diagrams/bank-vpc-routing-as-found.drawio.svg">
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="diagrams/dark/bank-vpc-routing-as-found.drawio.svg">
-  <img alt="The same VPC as found: one main route table with a route to the internet gateway for all eight subnets" src="diagrams/bank-vpc-routing-as-found.drawio.svg">
-</picture>
+<a href="diagrams/dark/bank-vpc-routing-as-found.drawio.svg">
+  <img alt="The same VPC as found: one main route table with a route to the internet gateway for all eight subnets" src="diagrams/dark/bank-vpc-routing-as-found.drawio.svg">
 </a>
 
 1. **One route table for all eight subnets, used implicitly.** No subnet has an explicit association, so every one follows `rt-main`, and its `0.0.0.0/0` route makes them all public, including any subnet created later (scenarios 4 and 9).
