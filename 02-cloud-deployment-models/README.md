@@ -27,11 +27,9 @@ A bank with customers in Nigeria and the European Union wants to modernise its i
 
 ## The rebuilt solution
 
-<a href="diagrams/dark/hybrid-deployment.png?raw=true">
-  <img alt="Hybrid bank architecture: Nigerian data in two in-country data centres and the Lagos Local Zone, EU services in AWS eu-west-1" src="diagrams/dark/hybrid-deployment.drawio.svg">
-</a>
+<img alt="Hybrid bank architecture: Nigerian data in two in-country data centres and the Lagos Local Zone, EU services in AWS eu-west-1" src="diagrams/dark/hybrid-deployment.drawio.svg">
 
-Select the diagram to open it at full resolution, then click the image to zoom in. The editable source is [`diagrams/hybrid-deployment.drawio`](diagrams/hybrid-deployment.drawio).
+Select the diagram to open it full size in a new tab; it stays sharp at any zoom. The editable source is [`diagrams/hybrid-deployment.drawio`](diagrams/hybrid-deployment.drawio).
 
 1. **Nigerian customers** reach **core banking** in the primary Lagos data centre.
 2. Core banking and the **customer database** share a site, so the round trip stays under 5 ms. No cloud Region can match that: Lagos to Cape Town is about 4,800 km, at least 48 ms there and back in fibre.
