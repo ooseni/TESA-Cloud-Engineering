@@ -5,7 +5,7 @@
 **At a glance**
 
 - **Outcome:** a six-month migration plan for a microfinance bank's six systems: one strategy from the 7 Rs for each, with the reason and the runner-up it beat, where each system lands, and the order of the work.
-- **Built:** a portfolio decision table, a target-state diagram, a month-by-month plan and three architecture decision records.
+- **Built:** a portfolio decision table, a target-state diagram, a month-by-month plan, three architecture decision records and a 17-slide [decision pack (PDF)](decisions/cloud-migration-adr-pack.pdf) for a review board.
 - **Stack:** AWS Lagos Local Zone, Amazon ECS, Application Load Balancer, AWS Direct Connect, Amazon S3, AWS DataSync, SaaS email.
 - **Proof:** every choice traces to the bank's five pressures and its data rule, and the three contested choices have full decision records that show the options they beat.
 
