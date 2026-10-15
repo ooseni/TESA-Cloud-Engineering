@@ -34,7 +34,7 @@ This is not an archive of submissions. Each module takes something I did during 
 | 05 | [Route Tables and Routing](05-route-tables/) | A tested routing checker that traces connections hop by hop and audits a bank VPC for ten routing faults | ✅ |
 | 06 | [Security Groups and Network ACLs](06-security-groups-nacls/) | A tested filter checker: least-privilege security groups and a network ACL per tier, traced request and reply | ✅ |
 | 07 | [EC2 Web Server](07-ec2-web-server/) | A tested Apache deploy script for EC2 user data that fixes the lab's port 80 conflict; no SSH, Session Manager | ✅ |
-| 08 | Cloud Migration Strategies | The 7 Rs applied to a portfolio of systems | ⬜ |
+| 08 | [Cloud Migration Strategies](08-cloud-migration-strategies/) | The 7 Rs for a microfinance bank's six systems: a six-month plan using the Lagos Local Zone, with three decision records | ✅ |
 | 09 | Network Architecture Design Studies | Four anonymised designs: inbound inspection, selective egress scanning, partner API integration, flat-network remediation | ⬜ |
 | 10 | S3 Static Website | Console lab rebuilt in Terraform as a private bucket behind CloudFront with HTTPS | ⬜ |
 | 11 | RDS for SQL Server | Private database, lab vs production hardening, SQL tested in CI | ⬜ |
