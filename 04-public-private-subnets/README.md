@@ -16,11 +16,8 @@ A fintech's network fails basic security: its main database has a public IP addr
 
 Four tiers, each with its own subnet in each of two Availability Zones, in VPC `10.40.0.0/16` in eu-west-1.
 
-<a href="diagrams/fintech-vpc-traffic-traffic-flow.drawio.svg">
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="diagrams/dark/fintech-vpc-traffic-traffic-flow.drawio.svg">
-  <img alt="Four-tier fintech VPC in two Availability Zones with numbered inbound and lettered outbound traffic" src="diagrams/fintech-vpc-traffic-traffic-flow.drawio.svg">
-</picture>
+<a href="diagrams/dark/fintech-vpc-traffic-traffic-flow.drawio.svg">
+  <img alt="Four-tier fintech VPC in two Availability Zones with numbered inbound and lettered outbound traffic" src="diagrams/dark/fintech-vpc-traffic-traffic-flow.drawio.svg">
 </a>
 
 Select the diagram to open it full size. The editable source is [`diagrams/fintech-vpc-traffic.drawio`](diagrams/fintech-vpc-traffic.drawio). It has three pages: both directions together (above), inbound only and outbound only.
@@ -45,11 +42,8 @@ Select the diagram to open it full size. The editable source is [`diagrams/finte
 <details>
 <summary>Inbound traffic only</summary>
 
-<a href="diagrams/fintech-vpc-traffic-inbound.drawio.svg">
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="diagrams/dark/fintech-vpc-traffic-inbound.drawio.svg">
-  <img alt="Inbound path: customer, internet gateway, load balancer, web server, app server, database" src="diagrams/fintech-vpc-traffic-inbound.drawio.svg">
-</picture>
+<a href="diagrams/dark/fintech-vpc-traffic-inbound.drawio.svg">
+  <img alt="Inbound path: customer, internet gateway, load balancer, web server, app server, database" src="diagrams/dark/fintech-vpc-traffic-inbound.drawio.svg">
 </a>
 
 </details>
@@ -57,11 +51,8 @@ Select the diagram to open it full size. The editable source is [`diagrams/finte
 <details>
 <summary>Outbound traffic only</summary>
 
-<a href="diagrams/fintech-vpc-traffic-outbound.drawio.svg">
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="diagrams/dark/fintech-vpc-traffic-outbound.drawio.svg">
-  <img alt="Outbound path: app server, NAT gateway in the same zone, internet gateway, payment provider" src="diagrams/fintech-vpc-traffic-outbound.drawio.svg">
-</picture>
+<a href="diagrams/dark/fintech-vpc-traffic-outbound.drawio.svg">
+  <img alt="Outbound path: app server, NAT gateway in the same zone, internet gateway, payment provider" src="diagrams/dark/fintech-vpc-traffic-outbound.drawio.svg">
 </a>
 
 </details>
