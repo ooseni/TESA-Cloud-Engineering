@@ -1,0 +1,9 @@
+# Normalise text files; shell scripts and Terraform keep LF even on a Windows checkout.
+* text=auto
+*.sh text eol=lf
+*.tf text eol=lf
+*.hcl text eol=lf
+*.sql text eol=lf
+*.png binary
+*.svg text eol=lf
+*.drawio text eol=lf
