@@ -27,12 +27,25 @@ A bank with customers in Nigeria and the European Union wants to modernise its i
 
 ## The rebuilt solution
 
+<a href="diagrams/hybrid-deployment.drawio.svg">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="diagrams/dark/hybrid-deployment.png">
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/dark/hybrid-deployment.drawio.svg">
   <img alt="Hybrid bank architecture: Nigerian data in two in-country data centres and the Lagos Local Zone, EU services in AWS eu-west-1" src="diagrams/hybrid-deployment.drawio.svg">
 </picture>
+</a>
 
-The editable source is [`diagrams/hybrid-deployment.drawio`](diagrams/hybrid-deployment.drawio).
+Select the diagram to open it full size. The editable source is [`diagrams/hybrid-deployment.drawio`](diagrams/hybrid-deployment.drawio).
+
+1. **Nigerian customers** reach **core banking** in the primary Lagos data centre.
+2. Core banking and the **customer database** share a site, so the round trip stays under 5 ms. No cloud Region can match that: Lagos to Cape Town is about 4,800 km, at least 48 ms there and back in fibre.
+3. Every transaction is written to an on-premises **WORM audit store**, so logs that contain personal data never leave Nigeria.
+4. The database replicates to a **secondary data centre in Nigeria**. Automated failover meets the 15-minute recovery time without moving data abroad.
+5. AI training on Nigerian data bursts to **GPU instances in the AWS Lagos Local Zone** over **AWS Direct Connect**. The data stays on **Amazon EBS** in Lagos, with no snapshots.
+6. **EU customers and EU fintech partners** call **Amazon API Gateway** in eu-west-1. Partner APIs that carry Nigerian data end in the Lagos data centre instead.
+7. EU services on **AWS Fargate** keep EU personal data in **Amazon RDS** in a private subnet (GDPR).
+8. Audit events go to **Amazon S3** with Object Lock in compliance mode, so no one can alter or delete them.
+
+The second Direct Connect link, to eu-west-1, carries anonymised aggregates only. With one public cloud, **IAM Identity Center** federates with the bank's on-premises directory, so there is one source of identities. **AWS Outposts** racks, available in Nigeria, are an option for running AWS services inside the data centres.
 
 ### Where each workload runs
 

@@ -1,32 +1,32 @@
 <mxfile host="Electron" agent="aws-architecture-diagrams" version="31.4.5">
   <diagram name="Hybrid deployment" id="hybrid-deployment">
-    <mxGraphModel dx="1880" dy="1020" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1880" pageHeight="1020" math="0" shadow="0">
+    <mxGraphModel dx="1120" dy="1480" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1120" pageHeight="1480" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="dc1" value="Primary data centre, Lagos" style="points=[];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=12;shape=mxgraph.aws4.group;verticalAlign=top;align=left;spacingLeft=30;strokeWidth=1.5;container=0;grIcon=mxgraph.aws4.group_corporate_data_center;strokeColor=#7D8998;fillColor=none;fontColor=#232F3E;dashed=0;" vertex="1" parent="1">
-          <mxGeometry x="190" y="160" width="420" height="380" as="geometry" />
+          <mxGeometry x="190" y="140" width="420" height="400" as="geometry" />
         </mxCell>
         <mxCell id="dc2" value="Secondary data centre, Nigeria (DR)" style="points=[];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=12;shape=mxgraph.aws4.group;verticalAlign=top;align=left;spacingLeft=30;strokeWidth=1.5;container=0;grIcon=mxgraph.aws4.group_corporate_data_center;strokeColor=#7D8998;fillColor=none;fontColor=#232F3E;dashed=0;" vertex="1" parent="1">
-          <mxGeometry x="190" y="620" width="420" height="280" as="geometry" />
+          <mxGeometry x="700" y="140" width="400" height="240" as="geometry" />
         </mxCell>
         <mxCell id="cloud" value="AWS Cloud" style="points=[];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=12;shape=mxgraph.aws4.group;verticalAlign=top;align=left;spacingLeft=30;strokeWidth=1.5;container=0;grIcon=mxgraph.aws4.group_aws_cloud_alt;strokeColor=#232F3E;fillColor=none;fontColor=#232F3E;dashed=0;" vertex="1" parent="1">
-          <mxGeometry x="740" y="160" width="740" height="820" as="geometry" />
-        </mxCell>
-        <mxCell id="eu" value="Europe (Ireland) eu-west-1" style="points=[];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=12;shape=mxgraph.aws4.group;verticalAlign=top;align=left;spacingLeft=30;strokeWidth=1.5;container=0;grIcon=mxgraph.aws4.group_region;strokeColor=#00A4A6;fillColor=none;fontColor=#232F3E;dashed=1;" vertex="1" parent="1">
-          <mxGeometry x="770" y="200" width="680" height="400" as="geometry" />
-        </mxCell>
-        <mxCell id="vpc" value="VPC&lt;br&gt;&lt;font color=&quot;#5A6C86&quot;&gt;10.20.0.0/16&lt;/font&gt;" style="points=[];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=12;shape=mxgraph.aws4.group;verticalAlign=top;align=left;spacingLeft=30;strokeWidth=1.5;container=0;grIcon=mxgraph.aws4.group_vpc2;strokeColor=#8C4FFF;fillColor=none;fontColor=#232F3E;dashed=0;" vertex="1" parent="1">
-          <mxGeometry x="1010" y="250" width="270" height="320" as="geometry" />
-        </mxCell>
-        <mxCell id="subnet" value="Private subnet&lt;br&gt;&lt;font color=&quot;#5A6C86&quot;&gt;10.20.10.0/24&lt;/font&gt;" style="points=[];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=12;shape=mxgraph.aws4.group;verticalAlign=top;align=left;spacingLeft=30;strokeWidth=1.5;container=0;grIcon=mxgraph.aws4.group_security_group;strokeColor=#00A4A6;fillColor=#E6F6F7;fontColor=#232F3E;dashed=0;" vertex="1" parent="1">
-          <mxGeometry x="1030" y="300" width="230" height="250" as="geometry" />
+          <mxGeometry x="190" y="620" width="910" height="830" as="geometry" />
         </mxCell>
         <mxCell id="af" value="Africa (Cape Town) af-south-1" style="points=[];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=12;shape=mxgraph.aws4.group;verticalAlign=top;align=left;spacingLeft=30;strokeWidth=1.5;container=0;grIcon=mxgraph.aws4.group_region;strokeColor=#00A4A6;fillColor=none;fontColor=#232F3E;dashed=1;" vertex="1" parent="1">
-          <mxGeometry x="770" y="640" width="680" height="310" as="geometry" />
+          <mxGeometry x="220" y="660" width="440" height="340" as="geometry" />
         </mxCell>
         <mxCell id="lz" value="Local Zone: Lagos (af-south-1-los-1)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#7D8998;dashed=1;strokeWidth=1.5;verticalAlign=top;align=left;spacingLeft=10;fontFamily=Arial;fontSize=12;fontColor=#232F3E;" vertex="1" parent="1">
-          <mxGeometry x="800" y="690" width="420" height="230" as="geometry" />
+          <mxGeometry x="250" y="710" width="380" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="eu" value="Europe (Ireland) eu-west-1" style="points=[];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=12;shape=mxgraph.aws4.group;verticalAlign=top;align=left;spacingLeft=30;strokeWidth=1.5;container=0;grIcon=mxgraph.aws4.group_region;strokeColor=#00A4A6;fillColor=none;fontColor=#232F3E;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="1040" width="850" height="380" as="geometry" />
+        </mxCell>
+        <mxCell id="vpc" value="VPC&lt;br&gt;&lt;font color=&quot;#5A6C86&quot;&gt;10.20.0.0/16&lt;/font&gt;" style="points=[];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=12;shape=mxgraph.aws4.group;verticalAlign=top;align=left;spacingLeft=30;strokeWidth=1.5;container=0;grIcon=mxgraph.aws4.group_vpc2;strokeColor=#8C4FFF;fillColor=none;fontColor=#232F3E;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="480" y="1080" width="300" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="subnet" value="Private subnet&lt;br&gt;&lt;font color=&quot;#5A6C86&quot;&gt;10.20.10.0/24&lt;/font&gt;" style="points=[];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=12;shape=mxgraph.aws4.group;verticalAlign=top;align=left;spacingLeft=30;strokeWidth=1.5;container=0;grIcon=mxgraph.aws4.group_security_group;strokeColor=#00A4A6;fillColor=#E6F6F7;fontColor=#232F3E;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="500" y="1130" width="260" height="255" as="geometry" />
         </mxCell>
         <mxCell id="e-ng-users-core" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;strokeColor=#232F3E;strokeWidth=2;fontFamily=Arial;fontSize=11;fontColor=#232F3E;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ng-users" target="core">
           <mxGeometry relative="1" as="geometry"></mxGeometry>
@@ -46,31 +46,31 @@
         <mxCell id="e-core-audit-label" value="append-only" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=11;fontColor=#232F3E;" vertex="1" connectable="0" parent="e-core-audit">
           <mxGeometry x="0.4" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
         </mxCell>
-        <mxCell id="e-db-db2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;strokeColor=#232F3E;strokeWidth=1.5;fontFamily=Arial;fontSize=11;fontColor=#232F3E;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=38;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="db" target="db2">
+        <mxCell id="e-db-db2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;strokeColor=#232F3E;strokeWidth=1.5;fontFamily=Arial;fontSize=11;fontColor=#232F3E;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="db" target="db2">
           <mxGeometry relative="1" as="geometry"></mxGeometry>
         </mxCell>
         <mxCell id="e-db-db2-label" value="replication&lt;br&gt;in Nigeria" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=11;fontColor=#232F3E;" vertex="1" connectable="0" parent="e-db-db2">
-          <mxGeometry x="0.1" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
-        </mxCell>
-        <mxCell id="e-dc1-gpu" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;strokeColor=#8C4FFF;strokeWidth=1.5;fontFamily=Arial;fontSize=11;fontColor=#232F3E;dashed=1;startArrow=open;startSize=8;exitX=1;exitY=0.85;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="dc1" target="gpu">
-          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="675" y="483" /><mxPoint x="675" y="800" /></Array></mxGeometry>
-        </mxCell>
-        <mxCell id="e-dc1-gpu-label" value="AWS Direct Connect&lt;br&gt;(data stays&lt;br&gt;in Nigeria)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=11;fontColor=#232F3E;" vertex="1" connectable="0" parent="e-dc1-gpu">
           <mxGeometry x="0" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
         </mxCell>
-        <mxCell id="e-dc1-vpc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;strokeColor=#8C4FFF;strokeWidth=1.5;fontFamily=Arial;fontSize=11;fontColor=#232F3E;dashed=1;startArrow=open;startSize=8;exitX=1;exitY=0.3;exitDx=0;exitDy=0;entryX=0;entryY=0.075;entryDx=0;entryDy=0;" edge="1" parent="1" source="dc1" target="vpc">
+        <mxCell id="e-dc1-gpu" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;strokeColor=#8C4FFF;strokeWidth=1.5;fontFamily=Arial;fontSize=11;fontColor=#232F3E;dashed=1;startArrow=open;startSize=8;exitX=0.785714;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="dc1" target="gpu">
           <mxGeometry relative="1" as="geometry"></mxGeometry>
         </mxCell>
-        <mxCell id="e-dc1-vpc-label" value="AWS Direct Connect&lt;br&gt;(anonymised&lt;br&gt;aggregates only)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=11;fontColor=#232F3E;" vertex="1" connectable="0" parent="e-dc1-vpc">
-          <mxGeometry x="-0.675" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        <mxCell id="e-dc1-gpu-label" value="AWS Direct Connect&lt;br&gt;(data stays&lt;br&gt;in Nigeria)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=11;fontColor=#232F3E;" vertex="1" connectable="0" parent="e-dc1-gpu">
+          <mxGeometry x="-0.67" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
         </mxCell>
-        <mxCell id="e-eu-users-apigw" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;strokeColor=#232F3E;strokeWidth=2;fontFamily=Arial;fontSize=11;fontColor=#232F3E;exitX=0.5;exitY=1;exitDx=0;exitDy=38;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="eu-users" target="apigw">
+        <mxCell id="e-dc1-vpc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;strokeColor=#8C4FFF;strokeWidth=1.5;fontFamily=Arial;fontSize=11;fontColor=#232F3E;dashed=1;startArrow=open;startSize=8;exitX=1;exitY=0.925;exitDx=0;exitDy=0;entryX=0.883333;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="dc1" target="vpc">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="745" y="510" /></Array></mxGeometry>
+        </mxCell>
+        <mxCell id="e-dc1-vpc-label" value="AWS Direct Connect&lt;br&gt;(anonymised&lt;br&gt;aggregates only)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=11;fontColor=#232F3E;" vertex="1" connectable="0" parent="e-dc1-vpc">
+          <mxGeometry x="0.29" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="e-eu-users-apigw" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;strokeColor=#232F3E;strokeWidth=2;fontFamily=Arial;fontSize=11;fontColor=#232F3E;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="eu-users" target="apigw">
           <mxGeometry relative="1" as="geometry"></mxGeometry>
         </mxCell>
         <mxCell id="e-eu-users-apigw-label" value="HTTPS" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=11;fontColor=#232F3E;" vertex="1" connectable="0" parent="e-eu-users-apigw">
           <mxGeometry x="0" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
         </mxCell>
-        <mxCell id="e-apigw-svc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;strokeColor=#232F3E;strokeWidth=2;fontFamily=Arial;fontSize=11;fontColor=#232F3E;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="apigw" target="svc">
+        <mxCell id="e-apigw-svc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;strokeColor=#232F3E;strokeWidth=2;fontFamily=Arial;fontSize=11;fontColor=#232F3E;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="apigw" target="svc">
           <mxGeometry relative="1" as="geometry"></mxGeometry>
         </mxCell>
         <mxCell id="e-apigw-svc-label" value="VPC link" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=11;fontColor=#232F3E;" vertex="1" connectable="0" parent="e-apigw-svc">
@@ -79,83 +79,80 @@
         <mxCell id="e-svc-rds" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;strokeColor=#232F3E;strokeWidth=1.5;fontFamily=Arial;fontSize=11;fontColor=#232F3E;exitX=0.5;exitY=1;exitDx=0;exitDy=38;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="svc" target="rds">
           <mxGeometry relative="1" as="geometry"></mxGeometry>
         </mxCell>
-        <mxCell id="e-svc-s3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;strokeColor=#232F3E;strokeWidth=1.5;fontFamily=Arial;fontSize=11;fontColor=#232F3E;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="svc" target="s3">
+        <mxCell id="e-svc-s3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;strokeColor=#232F3E;strokeWidth=1.5;fontFamily=Arial;fontSize=11;fontColor=#232F3E;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="svc" target="s3">
           <mxGeometry relative="1" as="geometry"></mxGeometry>
         </mxCell>
         <mxCell id="e-svc-s3-label" value="audit events" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=11;fontColor=#232F3E;" vertex="1" connectable="0" parent="e-svc-s3">
           <mxGeometry x="0" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
         </mxCell>
         <mxCell id="ng-users" value="Nigerian customers&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#5A6C86&quot;&gt;web, mobile, branches&lt;/font&gt;&lt;/i&gt;" style="sketch=0;outlineConnect=0;gradientColor=none;strokeColor=none;dashed=0;aspect=fixed;pointerEvents=1;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;whiteSpace=wrap;labelWidth=140;fontFamily=Arial;fontSize=12;fontColor=#232F3E;fillColor=#242F3E;shape=mxgraph.aws4.users;" vertex="1" parent="1">
-          <mxGeometry x="56" y="266" width="48" height="48" as="geometry" />
-        </mxCell>
-        <mxCell id="eu-users" value="EU customers&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#5A6C86&quot;&gt;and EU fintech partners&lt;/font&gt;&lt;/i&gt;" style="sketch=0;outlineConnect=0;gradientColor=none;strokeColor=none;dashed=0;aspect=fixed;pointerEvents=1;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;whiteSpace=wrap;labelWidth=140;fontFamily=Arial;fontSize=12;fontColor=#232F3E;fillColor=#242F3E;shape=mxgraph.aws4.users;" vertex="1" parent="1">
-          <mxGeometry x="1346" y="56" width="48" height="48" as="geometry" />
+          <mxGeometry x="56" y="246" width="48" height="48" as="geometry" />
         </mxCell>
         <mxCell id="core" value="Core banking&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#5A6C86&quot;&gt;accounts, ledger&lt;/font&gt;&lt;/i&gt;" style="sketch=0;outlineConnect=0;gradientColor=none;strokeColor=none;dashed=0;aspect=fixed;pointerEvents=1;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;whiteSpace=wrap;labelWidth=140;fontFamily=Arial;fontSize=12;fontColor=#232F3E;fillColor=#232F3D;shape=mxgraph.aws4.traditional_server;" vertex="1" parent="1">
-          <mxGeometry x="276" y="266" width="48" height="48" as="geometry" />
+          <mxGeometry x="276" y="246" width="48" height="48" as="geometry" />
         </mxCell>
         <mxCell id="db" value="Customer database&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#5A6C86&quot;&gt;Nigerian personal data&lt;/font&gt;&lt;/i&gt;" style="sketch=0;outlineConnect=0;gradientColor=none;strokeColor=none;dashed=0;aspect=fixed;pointerEvents=1;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;whiteSpace=wrap;labelWidth=140;fontFamily=Arial;fontSize=12;fontColor=#232F3E;fillColor=#232F3D;shape=mxgraph.aws4.generic_database;" vertex="1" parent="1">
-          <mxGeometry x="466" y="266" width="48" height="48" as="geometry" />
+          <mxGeometry x="466" y="246" width="48" height="48" as="geometry" />
         </mxCell>
         <mxCell id="audit" value="Audit log store&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#5A6C86&quot;&gt;WORM, retention-locked&lt;/font&gt;&lt;/i&gt;" style="sketch=0;outlineConnect=0;gradientColor=none;strokeColor=none;dashed=0;aspect=fixed;pointerEvents=1;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;whiteSpace=wrap;labelWidth=140;fontFamily=Arial;fontSize=12;fontColor=#232F3E;fillColor=#232F3D;shape=mxgraph.aws4.documents;" vertex="1" parent="1">
-          <mxGeometry x="276" y="426" width="48" height="48" as="geometry" />
-        </mxCell>
-        <mxCell id="core2" value="Core banking&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#5A6C86&quot;&gt;warm standby&lt;/font&gt;&lt;/i&gt;" style="sketch=0;outlineConnect=0;gradientColor=none;strokeColor=none;dashed=0;aspect=fixed;pointerEvents=1;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;whiteSpace=wrap;labelWidth=140;fontFamily=Arial;fontSize=12;fontColor=#232F3E;fillColor=#232F3D;shape=mxgraph.aws4.traditional_server;" vertex="1" parent="1">
-          <mxGeometry x="276" y="736" width="48" height="48" as="geometry" />
+          <mxGeometry x="276" y="406" width="48" height="48" as="geometry" />
         </mxCell>
         <mxCell id="db2" value="Customer database&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#5A6C86&quot;&gt;replica&lt;/font&gt;&lt;/i&gt;" style="sketch=0;outlineConnect=0;gradientColor=none;strokeColor=none;dashed=0;aspect=fixed;pointerEvents=1;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;whiteSpace=wrap;labelWidth=140;fontFamily=Arial;fontSize=12;fontColor=#232F3E;fillColor=#232F3D;shape=mxgraph.aws4.generic_database;" vertex="1" parent="1">
-          <mxGeometry x="466" y="736" width="48" height="48" as="geometry" />
+          <mxGeometry x="776" y="246" width="48" height="48" as="geometry" />
         </mxCell>
-        <mxCell id="apigw" value="Amazon API Gateway&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#5A6C86&quot;&gt;EU customer and partner APIs&lt;/font&gt;&lt;/i&gt;" style="sketch=0;outlineConnect=0;gradientColor=none;strokeColor=#ffffff;dashed=0;aspect=fixed;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;whiteSpace=wrap;labelWidth=140;fontFamily=Arial;fontSize=12;fontColor=#232F3E;fillColor=#8C4FFF;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.api_gateway;" vertex="1" parent="1">
-          <mxGeometry x="1346" y="356" width="48" height="48" as="geometry" />
+        <mxCell id="core2" value="Core banking&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#5A6C86&quot;&gt;warm standby&lt;/font&gt;&lt;/i&gt;" style="sketch=0;outlineConnect=0;gradientColor=none;strokeColor=none;dashed=0;aspect=fixed;pointerEvents=1;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;whiteSpace=wrap;labelWidth=140;fontFamily=Arial;fontSize=12;fontColor=#232F3E;fillColor=#232F3D;shape=mxgraph.aws4.traditional_server;" vertex="1" parent="1">
+          <mxGeometry x="966" y="246" width="48" height="48" as="geometry" />
         </mxCell>
-        <mxCell id="svc" value="AWS Fargate&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#5A6C86&quot;&gt;EU banking services&lt;/font&gt;&lt;/i&gt;" style="sketch=0;outlineConnect=0;gradientColor=none;strokeColor=#ffffff;dashed=0;aspect=fixed;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;whiteSpace=wrap;labelWidth=140;fontFamily=Arial;fontSize=12;fontColor=#232F3E;fillColor=#ED7100;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.fargate;" vertex="1" parent="1">
-          <mxGeometry x="1121" y="356" width="48" height="48" as="geometry" />
-        </mxCell>
-        <mxCell id="rds" value="Amazon RDS&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#5A6C86&quot;&gt;EU customer data&lt;/font&gt;&lt;/i&gt;" style="sketch=0;outlineConnect=0;gradientColor=none;strokeColor=none;dashed=0;aspect=fixed;pointerEvents=1;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;whiteSpace=wrap;labelWidth=140;fontFamily=Arial;fontSize=12;fontColor=#232F3E;fillColor=#C925D1;shape=mxgraph.aws4.rds_instance;" vertex="1" parent="1">
-          <mxGeometry x="1121" y="466" width="48" height="48" as="geometry" />
-        </mxCell>
-        <mxCell id="s3" value="Amazon S3&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#5A6C86&quot;&gt;audit logs (Object Lock)&lt;/font&gt;&lt;/i&gt;" style="sketch=0;outlineConnect=0;gradientColor=none;strokeColor=#ffffff;dashed=0;aspect=fixed;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;whiteSpace=wrap;labelWidth=140;fontFamily=Arial;fontSize=12;fontColor=#232F3E;fillColor=#7AA116;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;" vertex="1" parent="1">
-          <mxGeometry x="876" y="356" width="48" height="48" as="geometry" />
-        </mxCell>
-        <mxCell id="gpu" value="Amazon EC2&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#5A6C86&quot;&gt;GPU instances (g4dn)&lt;/font&gt;&lt;/i&gt;" style="sketch=0;outlineConnect=0;gradientColor=none;strokeColor=none;dashed=0;aspect=fixed;pointerEvents=1;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;whiteSpace=wrap;labelWidth=140;fontFamily=Arial;fontSize=12;fontColor=#232F3E;fillColor=#ED7100;shape=mxgraph.aws4.instance;" vertex="1" parent="1">
-          <mxGeometry x="896" y="776" width="48" height="48" as="geometry" />
+        <mxCell id="gpu" value="Amazon EC2&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#5A6C86&quot;&gt;GPU instances (g4dn)&lt;/font&gt;&lt;/i&gt;" style="shape=image;aspect=fixed;imageAspect=0;labelBackgroundColor=none;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;whiteSpace=wrap;labelWidth=140;fontFamily=Arial;fontSize=12;fontColor=#232F3E;image=data:image/svg+xml,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iNDhweCIgaGVpZ2h0PSI0OHB4IiB2aWV3Qm94PSIwIDAgNDggNDgiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+SWNvbi1SZXNvdXJjZS9Db21wdXRlL1Jlc19BbWF6b24tRUMyX0luc3RhbmNlXzQ4PC90aXRsZT4KICAgIDxnIGlkPSJJY29uLVJlc291cmNlL0NvbXB1dGUvUmVzX0FtYXpvbi1FQzJfSW5zdGFuY2VfNDgiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxwYXRoIGQ9Ik05LDM5IEwzOSwzOSBMMzksOSBMOSw5IEw5LDM5IFogTTQ2LDEzIEw0NiwxMSBMNDEsMTEgTDQxLDggQzQxLDcuNDQ4IDQwLjU1Miw3IDQwLDcgTDM3LDcgTDM3LDIgTDM1LDIgTDM1LDcgTDMxLDcgTDMxLDIgTDI5LDIgTDI5LDcgTDI1LDcgTDI1LDIgTDIzLDIgTDIzLDcgTDE5LDcgTDE5LDIgTDE3LDIgTDE3LDcgTDEzLDcgTDEzLDIgTDExLDIgTDExLDcgTDgsNyBDNy40NDcsNyA3LDcuNDQ4IDcsOCBMNywxMSBMMiwxMSBMMiwxMyBMNywxMyBMNywxNyBMMiwxNyBMMiwxOSBMNywxOSBMNywyMyBMMiwyMyBMMiwyNSBMNywyNSBMNywyOSBMMiwyOSBMMiwzMSBMNywzMSBMNywzNSBMMiwzNSBMMiwzNyBMNywzNyBMNyw0MCBDNyw0MC41NTMgNy40NDcsNDEgOCw0MSBMMTEsNDEgTDExLDQ2IEwxMyw0NiBMMTMsNDEgTDE3LDQxIEwxNyw0NiBMMTksNDYgTDE5LDQxIEwyMyw0MSBMMjMsNDYgTDI1LDQ2IEwyNSw0MSBMMjksNDEgTDI5LDQ2IEwzMSw0NiBMMzEsNDEgTDM1LDQxIEwzNSw0NiBMMzcsNDYgTDM3LDQxIEw0MCw0MSBDNDAuNTUyLDQxIDQxLDQwLjU1MyA0MSw0MCBMNDEsMzcgTDQ2LDM3IEw0NiwzNSBMNDEsMzUgTDQxLDMxIEw0NiwzMSBMNDYsMjkgTDQxLDI5IEw0MSwyNSBMNDYsMjUgTDQ2LDIzIEw0MSwyMyBMNDEsMTkgTDQ2LDE5IEw0NiwxNyBMNDEsMTcgTDQxLDEzIEw0NiwxMyBaIiBpZD0iQW1hem9uLUVDMi1JbnN0YW5jZV9SZXNvdXJjZS1JY29uX2xpZ2h0LWJnIiBmaWxsPSIjRUQ3MTAwIj48L3BhdGg+CiAgICA8L2c+Cjwvc3ZnPg==;" vertex="1" parent="1">
+          <mxGeometry x="496" y="786" width="48" height="48" as="geometry" />
         </mxCell>
         <mxCell id="ebs" value="Amazon EBS&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#5A6C86&quot;&gt;training data, in Lagos&lt;/font&gt;&lt;/i&gt;" style="sketch=0;outlineConnect=0;gradientColor=none;strokeColor=none;dashed=0;aspect=fixed;pointerEvents=1;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;whiteSpace=wrap;labelWidth=140;fontFamily=Arial;fontSize=12;fontColor=#232F3E;fillColor=#7AA116;shape=mxgraph.aws4.volume;" vertex="1" parent="1">
-          <mxGeometry x="1076" y="776" width="48" height="48" as="geometry" />
+          <mxGeometry x="306" y="786" width="48" height="48" as="geometry" />
         </mxCell>
-        <mxCell id="af-note" value="Parent Region: control plane only.&lt;br&gt;No snapshots or backups of&lt;br&gt;Nigerian data are stored here." style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=11;fontColor=#232F3E;align=left;verticalAlign=top;strokeColor=none;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="1240" y="760" width="190" height="80" as="geometry" />
+        <mxCell id="af-note" value="Parent Region: control plane only. No snapshots&lt;br&gt;or backups of Nigerian data are stored here." style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=11;fontColor=#232F3E;align=left;verticalAlign=top;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="250" y="920" width="390" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="eu-users" value="EU customers&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#5A6C86&quot;&gt;and EU fintech partners&lt;/font&gt;&lt;/i&gt;" style="sketch=0;outlineConnect=0;gradientColor=none;strokeColor=none;dashed=0;aspect=fixed;pointerEvents=1;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;whiteSpace=wrap;labelWidth=140;fontFamily=Arial;fontSize=12;fontColor=#232F3E;fillColor=#242F3E;shape=mxgraph.aws4.users;" vertex="1" parent="1">
+          <mxGeometry x="56" y="1186" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="apigw" value="Amazon API Gateway&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#5A6C86&quot;&gt;EU customer and partner APIs&lt;/font&gt;&lt;/i&gt;" style="sketch=0;outlineConnect=0;gradientColor=none;strokeColor=#ffffff;dashed=0;aspect=fixed;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;whiteSpace=wrap;labelWidth=140;fontFamily=Arial;fontSize=12;fontColor=#232F3E;fillColor=#8C4FFF;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.api_gateway;" vertex="1" parent="1">
+          <mxGeometry x="316" y="1186" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="svc" value="AWS Fargate&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#5A6C86&quot;&gt;EU banking services&lt;/font&gt;&lt;/i&gt;" style="sketch=0;outlineConnect=0;gradientColor=none;strokeColor=#ffffff;dashed=0;aspect=fixed;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;whiteSpace=wrap;labelWidth=140;fontFamily=Arial;fontSize=12;fontColor=#232F3E;fillColor=#ED7100;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.fargate;" vertex="1" parent="1">
+          <mxGeometry x="606" y="1186" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="rds" value="Amazon RDS&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#5A6C86&quot;&gt;EU customer data&lt;/font&gt;&lt;/i&gt;" style="sketch=0;outlineConnect=0;gradientColor=none;strokeColor=none;dashed=0;aspect=fixed;pointerEvents=1;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;whiteSpace=wrap;labelWidth=140;fontFamily=Arial;fontSize=12;fontColor=#232F3E;fillColor=#C925D1;shape=mxgraph.aws4.rds_instance;" vertex="1" parent="1">
+          <mxGeometry x="606" y="1296" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="s3" value="Amazon S3&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#5A6C86&quot;&gt;audit logs (Object Lock)&lt;/font&gt;&lt;/i&gt;" style="sketch=0;outlineConnect=0;gradientColor=none;strokeColor=#ffffff;dashed=0;aspect=fixed;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;whiteSpace=wrap;labelWidth=140;fontFamily=Arial;fontSize=12;fontColor=#232F3E;fillColor=#7AA116;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;" vertex="1" parent="1">
+          <mxGeometry x="906" y="1186" width="48" height="48" as="geometry" />
         </mxCell>
         <mxCell id="step-1" value="1" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#000000;strokeColor=none;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="147" y="249" width="26" height="26" as="geometry" />
+          <mxGeometry x="137" y="229" width="26" height="26" as="geometry" />
         </mxCell>
         <mxCell id="step-2" value="2" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#000000;strokeColor=none;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="382" y="249" width="26" height="26" as="geometry" />
+          <mxGeometry x="382" y="229" width="26" height="26" as="geometry" />
         </mxCell>
         <mxCell id="step-3" value="3" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#000000;strokeColor=none;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="322" y="375" width="26" height="26" as="geometry" />
+          <mxGeometry x="342" y="355" width="26" height="26" as="geometry" />
         </mxCell>
         <mxCell id="step-4" value="4" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#000000;strokeColor=none;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="499" y="587" width="26" height="26" as="geometry" />
+          <mxGeometry x="642" y="212" width="26" height="26" as="geometry" />
         </mxCell>
         <mxCell id="step-5" value="5" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#000000;strokeColor=none;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="684" y="587" width="26" height="26" as="geometry" />
+          <mxGeometry x="587" y="567" width="26" height="26" as="geometry" />
         </mxCell>
         <mxCell id="step-6" value="6" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#000000;strokeColor=none;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="1332" y="297" width="26" height="26" as="geometry" />
+          <mxGeometry x="257" y="1169" width="26" height="26" as="geometry" />
         </mxCell>
         <mxCell id="step-7" value="7" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#000000;strokeColor=none;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="1312" y="339" width="26" height="26" as="geometry" />
+          <mxGeometry x="427" y="1169" width="26" height="26" as="geometry" />
         </mxCell>
         <mxCell id="step-8" value="8" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#000000;strokeColor=none;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="967" y="339" width="26" height="26" as="geometry" />
+          <mxGeometry x="787" y="1169" width="26" height="26" as="geometry" />
         </mxCell>
         <mxCell id="title" value="Regulated bank: hybrid deployment&lt;br&gt;&lt;span style=&quot;font-size:13px;font-weight:normal&quot;&gt;Where each workload runs, and how Nigerian data stays in Nigeria&lt;/span&gt;" style="text;html=1;fontFamily=Arial;align=left;verticalAlign=top;strokeColor=none;fillColor=none;fontSize=22;fontStyle=1;fontColor=#232F3E;" vertex="1" parent="1">
           <mxGeometry x="40" y="24" width="1000" height="50" as="geometry" />
-        </mxCell>
-        <mxCell id="notes" value="&lt;b style=&quot;font-size:16px&quot;&gt;Legend&lt;/b&gt;&lt;ol style=&quot;padding-left:20px;margin-top:10px;margin-bottom:10px&quot;&gt;&lt;li style=&quot;margin-bottom:6px&quot;&gt;&lt;b&gt;Nigerian customers&lt;/b&gt; reach &lt;b&gt;core banking&lt;/b&gt; in the primary Lagos data centre.&lt;/li&gt;&lt;li style=&quot;margin-bottom:6px&quot;&gt;Core banking and the &lt;b&gt;customer database&lt;/b&gt; share a site, so the round trip stays under 5 ms. No cloud Region can: Lagos to Cape Town is about 4,800 km, at least 48 ms there and back in fibre.&lt;/li&gt;&lt;li style=&quot;margin-bottom:6px&quot;&gt;Every transaction is written to an on-premises &lt;b&gt;WORM audit store&lt;/b&gt;, so logs that contain personal data never leave Nigeria.&lt;/li&gt;&lt;li style=&quot;margin-bottom:6px&quot;&gt;The database replicates to a &lt;b&gt;secondary data centre in Nigeria&lt;/b&gt;. Automated failover meets the 15-minute recovery time without moving data abroad.&lt;/li&gt;&lt;li style=&quot;margin-bottom:6px&quot;&gt;AI training on Nigerian data bursts to &lt;b&gt;GPU instances in the AWS Lagos Local Zone&lt;/b&gt; over &lt;b&gt;AWS Direct Connect&lt;/b&gt;. Data stays on &lt;b&gt;EBS&lt;/b&gt; in Lagos, with no snapshots.&lt;/li&gt;&lt;li style=&quot;margin-bottom:6px&quot;&gt;&lt;b&gt;EU customers and EU fintech partners&lt;/b&gt; call &lt;b&gt;Amazon API Gateway&lt;/b&gt; in eu-west-1. Partner APIs that carry Nigerian data end in the Lagos data centre instead.&lt;/li&gt;&lt;li style=&quot;margin-bottom:6px&quot;&gt;EU services on &lt;b&gt;AWS Fargate&lt;/b&gt; keep EU personal data in &lt;b&gt;Amazon RDS&lt;/b&gt; in a private subnet (GDPR).&lt;/li&gt;&lt;li style=&quot;margin-bottom:6px&quot;&gt;Audit events go to &lt;b&gt;Amazon S3&lt;/b&gt; with Object Lock in compliance mode, so no one can alter or delete them.&lt;/li&gt;&lt;/ol&gt;&lt;b&gt;Residency rule:&lt;/b&gt;&lt;ul style=&quot;padding-left:20px;margin-top:6px;margin-bottom:10px&quot;&gt;&lt;li style=&quot;margin-bottom:6px&quot;&gt;Nigerian personal data, its backups and its logs stay in Nigeria.&lt;/li&gt;&lt;li style=&quot;margin-bottom:6px&quot;&gt;Only anonymised aggregates cross to eu-west-1.&lt;/li&gt;&lt;/ul&gt;&lt;b&gt;Identity:&lt;/b&gt;&lt;ul style=&quot;padding-left:20px;margin-top:6px;margin-bottom:10px&quot;&gt;&lt;li style=&quot;margin-bottom:6px&quot;&gt;One public cloud. &lt;b&gt;IAM Identity Center&lt;/b&gt; federates with the bank&#x27;s on-premises directory, so there is one source of identities.&lt;/li&gt;&lt;/ul&gt;&lt;b&gt;Cost:&lt;/b&gt;&lt;ul style=&quot;padding-left:20px;margin-top:6px;margin-bottom:10px&quot;&gt;&lt;li style=&quot;margin-bottom:6px&quot;&gt;GPUs run on demand, so nothing idles between training runs.&lt;/li&gt;&lt;li style=&quot;margin-bottom:6px&quot;&gt;Option: &lt;b&gt;AWS Outposts&lt;/b&gt; racks, available in Nigeria, bring AWS APIs on premises.&lt;/li&gt;&lt;/ul&gt;" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=13;fontColor=#232F3E;align=left;verticalAlign=top;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="1">
-          <mxGeometry x="1500" y="120" width="360" height="880" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
