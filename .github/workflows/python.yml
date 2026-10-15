@@ -3,9 +3,9 @@ name: python
 on:
   push:
     branches: [main]
-    paths: ["**.py", ".github/workflows/python.yml"]
+    paths: ["**.py", "05-route-tables/examples/**", ".github/workflows/python.yml"]
   pull_request:
-    paths: ["**.py", ".github/workflows/python.yml"]
+    paths: ["**.py", "05-route-tables/examples/**", ".github/workflows/python.yml"]
   workflow_dispatch:
 
 permissions:
@@ -19,3 +19,17 @@ jobs:
 
       - name: "Module 03: CIDR planner tests"
         run: python3 -m unittest discover -s 03-vpc-cidr-design -v
+
+      - name: "Module 05: routing checker tests"
+        run: python3 -m unittest discover -s 05-route-tables -v
+
+      - name: "Module 05: audit the example designs"
+        working-directory: 05-route-tables
+        run: |
+          python3 route_check.py audit examples/bank-vpc.json
+          # the as-found design must fail the audit with exit code 1
+          set +e
+          python3 route_check.py audit examples/as-found.json
+          code=$?
+          set -e
+          test "$code" -eq 1
