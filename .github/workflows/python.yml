@@ -1,0 +1,21 @@
+name: python
+
+on:
+  push:
+    branches: [main]
+    paths: ["**.py", ".github/workflows/python.yml"]
+  pull_request:
+    paths: ["**.py", ".github/workflows/python.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: "Module 03: CIDR planner tests"
+        run: python3 -m unittest discover -s 03-vpc-cidr-design -v
