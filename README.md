@@ -3,6 +3,7 @@
 Labs, design exercises and infrastructure code from the **TeSA Cloud Engineering Cohort** (February to April 2026), rebuilt, corrected and tested after the programme: AWS networking, security groups and network ACLs, EC2, S3, RDS, Terraform and CI/CD, with AWS architecture diagrams.
 
 [![shell](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/shell.yml/badge.svg)](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/shell.yml)
+[![python](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/python.yml/badge.svg)](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/python.yml)
 
 ## About the programme
 
@@ -26,7 +27,7 @@ This is not an archive of submissions. Each module takes something I did during 
 |---|---|---|---|
 | 01 | [Linux Fundamentals](01-linux-fundamentals/) | Bash backup and restore with checksums, strict mode and automated tests | ✅ |
 | 02 | [Cloud Deployment Models](02-cloud-deployment-models/) | Hybrid design for a regulated bank: data residency, latency, recovery, two decision records | ✅ |
-| 03 | VPC and CIDR Design | Address planning, subnet sizing across Availability Zones | ⬜ |
+| 03 | [VPC and CIDR Design](03-vpc-cidr-design/) | A tested Python tool that plans right-sized, non-overlapping subnets across Availability Zones | ✅ |
 | 04 | Public and Private Subnets | Tiered VPC across two Availability Zones, load balancer, NAT | ⬜ |
 | 05 | Route Tables and Routing | Internet gateway, NAT gateway, local routes, route evaluation | ⬜ |
 | 06 | Security Groups vs Network ACLs | Stateful and stateless filtering, numbered rule tables | ⬜ |
@@ -44,6 +45,7 @@ This is not an archive of submissions. Each module takes something I did during 
 | Skill | Modules |
 |---|---|
 | Linux and Bash scripting | 01, 07 |
+| Python tooling and unit tests | 03 |
 | VPC design, CIDR, subnets and routing | 03, 04, 05, 09 |
 | Network security: security groups, network ACLs, inspection | 06, 09 |
 | Compute: EC2, user data | 07, 12 |

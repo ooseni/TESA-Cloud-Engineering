@@ -1,0 +1,91 @@
+<mxfile host="Electron" agent="aws-architecture-diagrams" version="31.4.5">
+  <diagram name="Address plan" id="address-plan">
+    <mxGraphModel dx="1700" dy="960" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1700" pageHeight="960" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="cloud" value="AWS Cloud" style="points=[];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=12;shape=mxgraph.aws4.group;verticalAlign=top;align=left;spacingLeft=30;strokeWidth=1.5;container=0;grIcon=mxgraph.aws4.group_aws_cloud_alt;strokeColor=#232F3E;fillColor=none;fontColor=#232F3E;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="110" width="1180" height="820" as="geometry" />
+        </mxCell>
+        <mxCell id="region" value="Europe (Ireland) eu-west-1" style="points=[];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=12;shape=mxgraph.aws4.group;verticalAlign=top;align=left;spacingLeft=30;strokeWidth=1.5;container=0;grIcon=mxgraph.aws4.group_region;strokeColor=#00A4A6;fillColor=none;fontColor=#232F3E;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="150" width="1120" height="760" as="geometry" />
+        </mxCell>
+        <mxCell id="vpc" value="VPC&lt;br&gt;&lt;font color=&quot;#5A6C86&quot;&gt;10.30.0.0/16&lt;/font&gt;" style="points=[];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=12;shape=mxgraph.aws4.group;verticalAlign=top;align=left;spacingLeft=30;strokeWidth=1.5;container=0;grIcon=mxgraph.aws4.group_vpc2;strokeColor=#8C4FFF;fillColor=none;fontColor=#232F3E;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="100" y="220" width="1060" height="670" as="geometry" />
+        </mxCell>
+        <mxCell id="az-a" value="Availability Zone eu-west-1a" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#00A4A6;dashed=1;strokeWidth=1.5;verticalAlign=top;align=center;fontFamily=Arial;fontSize=12;fontColor=#232F3E;" vertex="1" parent="1">
+          <mxGeometry x="130" y="290" width="320" height="580" as="geometry" />
+        </mxCell>
+        <mxCell id="pub-a" value="Public subnet&lt;br&gt;&lt;font color=&quot;#5A6C86&quot;&gt;10.30.60.0/24&lt;/font&gt;" style="points=[];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=12;shape=mxgraph.aws4.group;verticalAlign=top;align=left;spacingLeft=30;strokeWidth=1.5;container=0;grIcon=mxgraph.aws4.group_security_group;strokeColor=#7AA116;fillColor=#F2F6E8;fontColor=#232F3E;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="150" y="330" width="280" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="app-a" value="Private subnet (app)&lt;br&gt;&lt;font color=&quot;#5A6C86&quot;&gt;10.30.0.0/20&lt;/font&gt;" style="points=[];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=12;shape=mxgraph.aws4.group;verticalAlign=top;align=left;spacingLeft=30;strokeWidth=1.5;container=0;grIcon=mxgraph.aws4.group_security_group;strokeColor=#00A4A6;fillColor=#E6F6F7;fontColor=#232F3E;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="150" y="470" width="280" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="data-a" value="Private subnet (data)&lt;br&gt;&lt;font color=&quot;#5A6C86&quot;&gt;10.30.48.0/22&lt;/font&gt;" style="points=[];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=12;shape=mxgraph.aws4.group;verticalAlign=top;align=left;spacingLeft=30;strokeWidth=1.5;container=0;grIcon=mxgraph.aws4.group_security_group;strokeColor=#00A4A6;fillColor=#E6F6F7;fontColor=#232F3E;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="150" y="710" width="280" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="az-b" value="Availability Zone eu-west-1b" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#00A4A6;dashed=1;strokeWidth=1.5;verticalAlign=top;align=center;fontFamily=Arial;fontSize=12;fontColor=#232F3E;" vertex="1" parent="1">
+          <mxGeometry x="470" y="290" width="320" height="580" as="geometry" />
+        </mxCell>
+        <mxCell id="pub-b" value="Public subnet&lt;br&gt;&lt;font color=&quot;#5A6C86&quot;&gt;10.30.61.0/24&lt;/font&gt;" style="points=[];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=12;shape=mxgraph.aws4.group;verticalAlign=top;align=left;spacingLeft=30;strokeWidth=1.5;container=0;grIcon=mxgraph.aws4.group_security_group;strokeColor=#7AA116;fillColor=#F2F6E8;fontColor=#232F3E;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="490" y="330" width="280" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="app-b" value="Private subnet (app)&lt;br&gt;&lt;font color=&quot;#5A6C86&quot;&gt;10.30.16.0/20&lt;/font&gt;" style="points=[];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=12;shape=mxgraph.aws4.group;verticalAlign=top;align=left;spacingLeft=30;strokeWidth=1.5;container=0;grIcon=mxgraph.aws4.group_security_group;strokeColor=#00A4A6;fillColor=#E6F6F7;fontColor=#232F3E;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="490" y="470" width="280" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="data-b" value="Private subnet (data)&lt;br&gt;&lt;font color=&quot;#5A6C86&quot;&gt;10.30.52.0/22&lt;/font&gt;" style="points=[];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=12;shape=mxgraph.aws4.group;verticalAlign=top;align=left;spacingLeft=30;strokeWidth=1.5;container=0;grIcon=mxgraph.aws4.group_security_group;strokeColor=#00A4A6;fillColor=#E6F6F7;fontColor=#232F3E;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="490" y="710" width="280" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="az-c" value="Availability Zone eu-west-1c (reserved for growth)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#00A4A6;dashed=1;strokeWidth=1.5;verticalAlign=top;align=center;fontFamily=Arial;fontSize=12;fontColor=#232F3E;" vertex="1" parent="1">
+          <mxGeometry x="810" y="290" width="320" height="580" as="geometry" />
+        </mxCell>
+        <mxCell id="pub-c" value="Public subnet&lt;br&gt;&lt;font color=&quot;#5A6C86&quot;&gt;10.30.62.0/24&lt;/font&gt;" style="points=[];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=12;shape=mxgraph.aws4.group;verticalAlign=top;align=left;spacingLeft=30;strokeWidth=1.5;container=0;grIcon=mxgraph.aws4.group_security_group;strokeColor=#7AA116;fillColor=#F2F6E8;fontColor=#232F3E;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="830" y="330" width="280" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="app-c" value="Private subnet (app)&lt;br&gt;&lt;font color=&quot;#5A6C86&quot;&gt;10.30.32.0/20&lt;/font&gt;" style="points=[];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=12;shape=mxgraph.aws4.group;verticalAlign=top;align=left;spacingLeft=30;strokeWidth=1.5;container=0;grIcon=mxgraph.aws4.group_security_group;strokeColor=#00A4A6;fillColor=#E6F6F7;fontColor=#232F3E;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="830" y="470" width="280" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="data-c" value="Private subnet (data)&lt;br&gt;&lt;font color=&quot;#5A6C86&quot;&gt;10.30.56.0/22&lt;/font&gt;" style="points=[];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=12;shape=mxgraph.aws4.group;verticalAlign=top;align=left;spacingLeft=30;strokeWidth=1.5;container=0;grIcon=mxgraph.aws4.group_security_group;strokeColor=#00A4A6;fillColor=#E6F6F7;fontColor=#232F3E;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="830" y="710" width="280" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="igw" value="Internet gateway" style="sketch=0;outlineConnect=0;gradientColor=none;strokeColor=none;dashed=0;aspect=fixed;pointerEvents=1;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;whiteSpace=wrap;labelWidth=140;fontFamily=Arial;fontSize=12;fontColor=#232F3E;fillColor=#8C4FFF;shape=mxgraph.aws4.internet_gateway;labelBackgroundColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="606" y="196" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="pub-a-n" value="251 usable addresses" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=11;fontColor=#232F3E;align=left;verticalAlign=top;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="170" y="395" width="240" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="app-a-n" value="4,091 usable addresses" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=11;fontColor=#232F3E;align=left;verticalAlign=top;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="170" y="600" width="240" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="data-a-n" value="1,019 usable addresses" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=11;fontColor=#232F3E;align=left;verticalAlign=top;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="170" y="800" width="240" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="pub-b-n" value="251 usable addresses" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=11;fontColor=#232F3E;align=left;verticalAlign=top;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="510" y="395" width="240" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="app-b-n" value="4,091 usable addresses" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=11;fontColor=#232F3E;align=left;verticalAlign=top;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="510" y="600" width="240" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="data-b-n" value="1,019 usable addresses" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=11;fontColor=#232F3E;align=left;verticalAlign=top;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="510" y="800" width="240" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="pub-c-n" value="251 usable addresses" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=11;fontColor=#232F3E;align=left;verticalAlign=top;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="850" y="395" width="240" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="app-c-n" value="4,091 usable addresses" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=11;fontColor=#232F3E;align=left;verticalAlign=top;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="850" y="600" width="240" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="data-c-n" value="1,019 usable addresses" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=11;fontColor=#232F3E;align=left;verticalAlign=top;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="850" y="800" width="240" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="VPC address plan&lt;br&gt;&lt;span style=&quot;font-size:13px;font-weight:normal&quot;&gt;Three tiers in each of three Availability Zones, sized by need&lt;/span&gt;" style="text;html=1;fontFamily=Arial;align=left;verticalAlign=top;strokeColor=none;fillColor=none;fontSize=22;fontStyle=1;fontColor=#232F3E;" vertex="1" parent="1">
+          <mxGeometry x="40" y="24" width="1000" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="notes" value="&lt;div&gt;&lt;b style=&quot;font-size:16px&quot;&gt;Legend&lt;/b&gt;&lt;/div&gt;&lt;b&gt;Address plan:&lt;/b&gt;&lt;ul style=&quot;padding-left:20px;margin-top:6px;margin-bottom:10px&quot;&gt;&lt;li style=&quot;margin-bottom:6px&quot;&gt;VPC &lt;font color=&quot;#5A6C86&quot; style=&quot;white-space:nowrap&quot;&gt;10.30.0.0/16&lt;/font&gt;: 65,536 addresses.&lt;/li&gt;&lt;li style=&quot;margin-bottom:6px&quot;&gt;3 tiers x 3 Availability Zones = 9 subnets, 16,128 addresses (25%).&lt;/li&gt;&lt;li style=&quot;margin-bottom:6px&quot;&gt;Free for new tiers: &lt;font color=&quot;#5A6C86&quot; style=&quot;white-space:nowrap&quot;&gt;10.30.63.0/24&lt;/font&gt;, &lt;font color=&quot;#5A6C86&quot; style=&quot;white-space:nowrap&quot;&gt;10.30.64.0/18&lt;/font&gt;, &lt;font color=&quot;#5A6C86&quot; style=&quot;white-space:nowrap&quot;&gt;10.30.128.0/17&lt;/font&gt;.&lt;/li&gt;&lt;/ul&gt;&lt;b&gt;Sizing:&lt;/b&gt;&lt;ul style=&quot;padding-left:20px;margin-top:6px;margin-bottom:10px&quot;&gt;&lt;li style=&quot;margin-bottom:6px&quot;&gt;&lt;b&gt;Public /24&lt;/b&gt;: load balancer and NAT gateway interfaces only.&lt;/li&gt;&lt;li style=&quot;margin-bottom:6px&quot;&gt;&lt;b&gt;App /20&lt;/b&gt;: instances, containers and Lambda interfaces each take an address.&lt;/li&gt;&lt;li style=&quot;margin-bottom:6px&quot;&gt;&lt;b&gt;Data /22&lt;/b&gt;: database nodes, replicas and interface endpoints.&lt;/li&gt;&lt;/ul&gt;&lt;b&gt;Rules applied:&lt;/b&gt;&lt;ul style=&quot;padding-left:20px;margin-top:6px;margin-bottom:10px&quot;&gt;&lt;li style=&quot;margin-bottom:6px&quot;&gt;AWS reserves 5 addresses in every subnet (network, router, DNS, future use, broadcast).&lt;/li&gt;&lt;li style=&quot;margin-bottom:6px&quot;&gt;A subnet lives in one Availability Zone, so every tier is repeated per zone.&lt;/li&gt;&lt;li style=&quot;margin-bottom:6px&quot;&gt;Subnets must be /16 to /28.&lt;/li&gt;&lt;li style=&quot;margin-bottom:6px&quot;&gt;The VPC avoids on-premises &lt;font color=&quot;#5A6C86&quot; style=&quot;white-space:nowrap&quot;&gt;10.0.0.0/16&lt;/font&gt; and &lt;font color=&quot;#5A6C86&quot; style=&quot;white-space:nowrap&quot;&gt;172.16.0.0/12&lt;/font&gt;, so a VPN or Direct Connect link can route to both.&lt;/li&gt;&lt;li style=&quot;margin-bottom:6px&quot;&gt;Availability Zone c is allocated now and left empty, so adding a third zone never means renumbering.&lt;/li&gt;&lt;/ul&gt;" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=13;fontColor=#232F3E;align=left;verticalAlign=top;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="1260" y="120" width="420" height="810" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
