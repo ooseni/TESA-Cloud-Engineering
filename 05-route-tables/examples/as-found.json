@@ -1,0 +1,47 @@
+{
+  "vpc": {"name": "as-found", "cidr": "10.10.0.0/16"},
+  "subnets": {
+    "public-a": {"cidr": "10.10.0.0/24", "az": "eu-west-1a", "internet": "public"},
+    "public-b": {"cidr": "10.10.1.0/24", "az": "eu-west-1b", "internet": "public"},
+    "web-a": {"cidr": "10.10.10.0/24", "az": "eu-west-1a", "internet": "outbound"},
+    "web-b": {"cidr": "10.10.11.0/24", "az": "eu-west-1b", "internet": "outbound"},
+    "app-a": {"cidr": "10.10.20.0/24", "az": "eu-west-1a", "internet": "outbound"},
+    "app-b": {"cidr": "10.10.21.0/24", "az": "eu-west-1b", "internet": "outbound"},
+    "data-a": {"cidr": "10.10.30.0/24", "az": "eu-west-1a", "internet": "none"},
+    "data-b": {"cidr": "10.10.31.0/24", "az": "eu-west-1b", "internet": "none"}
+  },
+  "gateways": {
+    "igw": {"type": "internet"}
+  },
+  "route_tables": {
+    "rt-main": {"main": true, "routes": {"0.0.0.0/0": "igw"}}
+  },
+  "resources": {
+    "alb-node-a": {"subnet": "public-a", "ip": "10.10.0.10", "public_ip": true},
+    "alb-node-b": {"subnet": "public-b", "ip": "10.10.1.10", "public_ip": true},
+    "web-server-a": {"subnet": "web-a", "ip": "10.10.10.10", "public_ip": true},
+    "web-server-b": {"subnet": "web-b", "ip": "10.10.11.10", "public_ip": true},
+    "app-server-a": {"subnet": "app-a", "ip": "10.10.20.10"},
+    "app-server-b": {"subnet": "app-b", "ip": "10.10.21.10"},
+    "db-primary": {"subnet": "data-a", "ip": "10.10.30.10", "public_ip": true},
+    "db-standby": {"subnet": "data-b", "ip": "10.10.31.10"}
+  },
+  "flows": [
+    {"from": "internet", "to": "alb-node-a"},
+    {"from": "internet", "to": "alb-node-b"},
+    {"from": "alb-node-a", "to": "web-server-a"},
+    {"from": "alb-node-b", "to": "web-server-b"},
+    {"from": "web-server-a", "to": "app-server-a"},
+    {"from": "web-server-b", "to": "app-server-b"},
+    {"from": "app-server-a", "to": "db-primary"},
+    {"from": "app-server-b", "to": "db-primary"},
+    {"from": "db-primary", "to": "db-standby"},
+    {"from": "app-server-a", "to": "internet"},
+    {"from": "app-server-b", "to": "internet"},
+    {"from": "web-server-a", "to": "internet"},
+    {"from": "internet", "to": "web-server-a", "expect": "blocked"},
+    {"from": "internet", "to": "app-server-a", "expect": "blocked"},
+    {"from": "internet", "to": "db-primary", "expect": "blocked"},
+    {"from": "db-primary", "to": "internet", "expect": "blocked"}
+  ]
+}
