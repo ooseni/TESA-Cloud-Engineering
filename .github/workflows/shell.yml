@@ -3,9 +3,9 @@ name: shell
 on:
   push:
     branches: [main]
-    paths: ["**.sh", ".github/workflows/shell.yml"]
+    paths: ["**.sh", "07-ec2-web-server/**", ".github/workflows/shell.yml"]
   pull_request:
-    paths: ["**.sh", ".github/workflows/shell.yml"]
+    paths: ["**.sh", "07-ec2-web-server/**", ".github/workflows/shell.yml"]
   workflow_dispatch:
 
 permissions:
@@ -22,3 +22,13 @@ jobs:
 
       - name: "Module 01: backup and restore tests"
         run: bash 01-linux-fundamentals/tests/backup_restore_test.sh
+
+  deploy-test:
+    # The lab ran Ubuntu 24.04, so these tests run on the same release rather than ubuntu-latest.
+    # They install packages and stop services: a throwaway runner is the right place for them.
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: "Module 07: deploy tests on a real Ubuntu machine"
+        run: sudo ALLOW_SYSTEM_CHANGES=1 bash 07-ec2-web-server/tests/deploy_site_test.sh
