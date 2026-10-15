@@ -1,0 +1,376 @@
+{
+  "vpc": {
+    "name": "bank-vpc",
+    "cidr": "10.40.0.0/16"
+  },
+  "subnets": {
+    "public-a": {
+      "cidr": "10.40.0.0/24",
+      "tier": "public",
+      "nacl": "nacl-public"
+    },
+    "public-b": {
+      "cidr": "10.40.1.0/24",
+      "tier": "public",
+      "nacl": "nacl-public"
+    },
+    "web-a": {
+      "cidr": "10.40.10.0/24",
+      "tier": "web",
+      "nacl": "nacl-web"
+    },
+    "web-b": {
+      "cidr": "10.40.11.0/24",
+      "tier": "web",
+      "nacl": "nacl-web"
+    },
+    "app-a": {
+      "cidr": "10.40.20.0/24",
+      "tier": "app",
+      "nacl": "nacl-app",
+      "nat": "nat-a"
+    },
+    "app-b": {
+      "cidr": "10.40.21.0/24",
+      "tier": "app",
+      "nacl": "nacl-app",
+      "nat": "nat-b"
+    },
+    "data-a": {
+      "cidr": "10.40.30.0/24",
+      "tier": "data",
+      "nacl": "nacl-data"
+    },
+    "data-b": {
+      "cidr": "10.40.31.0/24",
+      "tier": "data",
+      "nacl": "nacl-data"
+    }
+  },
+  "nacls": {
+    "nacl-public": {
+      "inbound": [
+        {
+          "rule": 100,
+          "protocol": "tcp",
+          "ports": "443",
+          "cidr": "0.0.0.0/0",
+          "action": "allow",
+          "why": "Customers to the load balancer; app servers' HTTPS calls on their way to the NAT gateways"
+        },
+        {
+          "rule": 110,
+          "protocol": "tcp",
+          "ports": "1024-65535",
+          "cidr": "0.0.0.0/0",
+          "action": "allow",
+          "why": "Replies: from the internet to the NAT gateways, and from the web servers to the load balancer"
+        }
+      ],
+      "outbound": [
+        {
+          "rule": 100,
+          "protocol": "tcp",
+          "ports": "443",
+          "cidr": "0.0.0.0/0",
+          "action": "allow",
+          "why": "Load balancer to the web servers; NAT gateways to the internet"
+        },
+        {
+          "rule": 110,
+          "protocol": "tcp",
+          "ports": "1024-65535",
+          "cidr": "0.0.0.0/0",
+          "action": "allow",
+          "why": "Replies to customers, and from the NAT gateways back to the app servers"
+        }
+      ]
+    },
+    "nacl-web": {
+      "inbound": [
+        {
+          "rule": 100,
+          "protocol": "tcp",
+          "ports": "443",
+          "cidr": "10.40.0.0/23",
+          "action": "allow",
+          "why": "From the load balancer"
+        },
+        {
+          "rule": 110,
+          "protocol": "tcp",
+          "ports": "1024-65535",
+          "cidr": "10.40.20.0/23",
+          "action": "allow",
+          "why": "Replies from the app servers"
+        }
+      ],
+      "outbound": [
+        {
+          "rule": 100,
+          "protocol": "tcp",
+          "ports": "8080",
+          "cidr": "10.40.20.0/23",
+          "action": "allow",
+          "why": "To the app servers"
+        },
+        {
+          "rule": 110,
+          "protocol": "tcp",
+          "ports": "1024-65535",
+          "cidr": "10.40.0.0/23",
+          "action": "allow",
+          "why": "Replies to the load balancer"
+        }
+      ]
+    },
+    "nacl-app": {
+      "inbound": [
+        {
+          "rule": 100,
+          "protocol": "tcp",
+          "ports": "8080",
+          "cidr": "10.40.10.0/23",
+          "action": "allow",
+          "why": "From the web servers"
+        },
+        {
+          "rule": 110,
+          "protocol": "tcp",
+          "ports": "1024-65535",
+          "cidr": "0.0.0.0/0",
+          "action": "allow",
+          "why": "Replies from the database, and from the payment provider through the NAT gateways"
+        }
+      ],
+      "outbound": [
+        {
+          "rule": 100,
+          "protocol": "tcp",
+          "ports": "5432",
+          "cidr": "10.40.30.0/23",
+          "action": "allow",
+          "why": "To the database"
+        },
+        {
+          "rule": 110,
+          "protocol": "tcp",
+          "ports": "443",
+          "cidr": "0.0.0.0/0",
+          "action": "allow",
+          "why": "To the payment provider, through the NAT gateways"
+        },
+        {
+          "rule": 120,
+          "protocol": "tcp",
+          "ports": "1024-65535",
+          "cidr": "10.40.10.0/23",
+          "action": "allow",
+          "why": "Replies to the web servers"
+        }
+      ]
+    },
+    "nacl-data": {
+      "inbound": [
+        {
+          "rule": 100,
+          "protocol": "tcp",
+          "ports": "5432",
+          "cidr": "10.40.20.0/23",
+          "action": "allow",
+          "why": "From the app servers"
+        },
+        {
+          "rule": 110,
+          "protocol": "all",
+          "ports": "all",
+          "cidr": "10.40.30.0/23",
+          "action": "allow",
+          "why": "Between the primary and the standby (Multi-AZ replication)"
+        }
+      ],
+      "outbound": [
+        {
+          "rule": 100,
+          "protocol": "tcp",
+          "ports": "1024-65535",
+          "cidr": "10.40.20.0/23",
+          "action": "allow",
+          "why": "Replies to the app servers"
+        },
+        {
+          "rule": 110,
+          "protocol": "all",
+          "ports": "all",
+          "cidr": "10.40.30.0/23",
+          "action": "allow",
+          "why": "Between the primary and the standby"
+        }
+      ]
+    }
+  },
+  "security_groups": {
+    "sg-alb": {
+      "inbound": [
+        {
+          "protocol": "tcp",
+          "ports": "443",
+          "peer": "0.0.0.0/0"
+        }
+      ],
+      "outbound": [
+        {
+          "protocol": "tcp",
+          "ports": "443",
+          "peer": "sg-web"
+        }
+      ]
+    },
+    "sg-web": {
+      "inbound": [
+        {
+          "protocol": "tcp",
+          "ports": "443",
+          "peer": "sg-alb"
+        }
+      ],
+      "outbound": [
+        {
+          "protocol": "tcp",
+          "ports": "8080",
+          "peer": "sg-app"
+        }
+      ]
+    },
+    "sg-app": {
+      "inbound": [
+        {
+          "protocol": "tcp",
+          "ports": "8080",
+          "peer": "sg-web"
+        }
+      ],
+      "outbound": [
+        {
+          "protocol": "tcp",
+          "ports": "5432",
+          "peer": "sg-db"
+        },
+        {
+          "protocol": "tcp",
+          "ports": "443",
+          "peer": "0.0.0.0/0"
+        }
+      ]
+    },
+    "sg-db": {
+      "inbound": [
+        {
+          "protocol": "tcp",
+          "ports": "5432",
+          "peer": "sg-app"
+        }
+      ],
+      "outbound": []
+    }
+  },
+  "resources": {
+    "alb-a": {
+      "subnet": "public-a",
+      "ip": "10.40.0.10",
+      "kind": "alb",
+      "security_groups": [
+        "sg-alb"
+      ]
+    },
+    "nat-a": {
+      "subnet": "public-a",
+      "ip": "10.40.0.20",
+      "kind": "nat"
+    },
+    "nat-b": {
+      "subnet": "public-b",
+      "ip": "10.40.1.20",
+      "kind": "nat"
+    },
+    "web-a": {
+      "subnet": "web-a",
+      "ip": "10.40.10.10",
+      "security_groups": [
+        "sg-web"
+      ]
+    },
+    "app-a": {
+      "subnet": "app-a",
+      "ip": "10.40.20.10",
+      "security_groups": [
+        "sg-app"
+      ]
+    },
+    "db-a": {
+      "subnet": "data-a",
+      "ip": "10.40.30.10",
+      "kind": "rds",
+      "security_groups": [
+        "sg-db"
+      ]
+    }
+  },
+  "flows": [
+    {
+      "from": "internet",
+      "to": "alb-a",
+      "port": 443
+    },
+    {
+      "from": "alb-a",
+      "to": "web-a",
+      "port": 443
+    },
+    {
+      "from": "web-a",
+      "to": "app-a",
+      "port": 8080
+    },
+    {
+      "from": "app-a",
+      "to": "db-a",
+      "port": 5432
+    },
+    {
+      "from": "app-a",
+      "to": "internet",
+      "port": 443
+    },
+    {
+      "from": "internet",
+      "to": "web-a",
+      "port": 443,
+      "expect": "blocked"
+    },
+    {
+      "from": "internet",
+      "to": "db-a",
+      "port": 5432,
+      "expect": "blocked"
+    },
+    {
+      "from": "web-a",
+      "to": "db-a",
+      "port": 5432,
+      "expect": "blocked"
+    },
+    {
+      "from": "web-a",
+      "to": "app-a",
+      "port": 22,
+      "expect": "blocked"
+    },
+    {
+      "from": "db-a",
+      "to": "internet",
+      "port": 443,
+      "expect": "blocked"
+    }
+  ]
+}

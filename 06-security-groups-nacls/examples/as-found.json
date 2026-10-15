@@ -1,0 +1,51 @@
+{
+  "vpc": {"name": "as-found", "cidr": "10.40.0.0/16"},
+  "subnets": {
+    "public-a": {"cidr": "10.40.0.0/24", "tier": "public"},
+    "public-b": {"cidr": "10.40.1.0/24", "tier": "public"},
+    "web-a": {"cidr": "10.40.10.0/24", "tier": "web"},
+    "web-b": {"cidr": "10.40.11.0/24", "tier": "web"},
+    "app-a": {"cidr": "10.40.20.0/24", "tier": "app", "nat": "nat-a"},
+    "app-b": {"cidr": "10.40.21.0/24", "tier": "app", "nat": "nat-b"},
+    "data-a": {"cidr": "10.40.30.0/24", "tier": "data"},
+    "data-b": {"cidr": "10.40.31.0/24", "tier": "data"}
+  },
+  "security_groups": {
+    "sg-alb": {
+      "inbound": [{"protocol": "tcp", "ports": "443", "peer": "0.0.0.0/0"}],
+      "outbound": [{"protocol": "all", "ports": "all", "peer": "0.0.0.0/0"}]
+    },
+    "sg-web": {
+      "inbound": [{"protocol": "all", "ports": "all", "peer": "0.0.0.0/0"}],
+      "outbound": [{"protocol": "all", "ports": "all", "peer": "0.0.0.0/0"}]
+    },
+    "sg-app": {
+      "inbound": [{"protocol": "all", "ports": "all", "peer": "sg-web"}],
+      "outbound": [{"protocol": "all", "ports": "all", "peer": "0.0.0.0/0"}]
+    },
+    "sg-db": {
+      "inbound": [{"protocol": "tcp", "ports": "5432", "peer": "0.0.0.0/0"}],
+      "outbound": [{"protocol": "all", "ports": "all", "peer": "0.0.0.0/0"}]
+    }
+  },
+  "resources": {
+    "alb-a": {"subnet": "public-a", "ip": "10.40.0.10", "kind": "alb", "security_groups": ["sg-alb"]},
+    "nat-a": {"subnet": "public-a", "ip": "10.40.0.20", "kind": "nat"},
+    "nat-b": {"subnet": "public-b", "ip": "10.40.1.20", "kind": "nat"},
+    "web-a": {"subnet": "web-a", "ip": "10.40.10.10", "security_groups": ["sg-web"]},
+    "app-a": {"subnet": "app-a", "ip": "10.40.20.10", "security_groups": ["sg-app"]},
+    "db-a": {"subnet": "data-a", "ip": "10.40.30.10", "kind": "rds", "security_groups": ["sg-db"]}
+  },
+  "flows": [
+    {"from": "internet", "to": "alb-a", "port": 443},
+    {"from": "alb-a", "to": "web-a", "port": 443},
+    {"from": "web-a", "to": "app-a", "port": 8080},
+    {"from": "app-a", "to": "db-a", "port": 5432},
+    {"from": "app-a", "to": "internet", "port": 443},
+    {"from": "internet", "to": "web-a", "port": 443, "expect": "blocked"},
+    {"from": "internet", "to": "db-a", "port": 5432, "expect": "blocked"},
+    {"from": "web-a", "to": "db-a", "port": 5432, "expect": "blocked"},
+    {"from": "web-a", "to": "app-a", "port": 22, "expect": "blocked"},
+    {"from": "db-a", "to": "internet", "port": 443, "expect": "blocked"}
+  ]
+}
