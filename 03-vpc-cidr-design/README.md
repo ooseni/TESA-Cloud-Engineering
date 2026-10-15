@@ -66,12 +66,14 @@ $ python cidr_plan.py plan 10.30.0.0/16 --azs a,b,c \
 
 Allocated 16,128 of 65,536 addresses (25%); free blocks: `10.30.63.0/24`, `10.30.64.0/18`, `10.30.128.0/17`.
 
+<a href="diagrams/vpc-address-plan.drawio.svg">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="diagrams/dark/vpc-address-plan.png">
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/dark/vpc-address-plan.drawio.svg">
   <img alt="VPC 10.30.0.0/16 with public, app and data subnets in three Availability Zones" src="diagrams/vpc-address-plan.drawio.svg">
 </picture>
+</a>
 
-The editable source is [`diagrams/vpc-address-plan.drawio`](diagrams/vpc-address-plan.drawio).
+Select the diagram to open it full size. The editable source is [`diagrams/vpc-address-plan.drawio`](diagrams/vpc-address-plan.drawio).
 
 ### How it is tested
 
