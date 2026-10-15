@@ -1,0 +1,157 @@
+<mxfile host="Electron" agent="aws-architecture-diagrams" version="31.4.5">
+  <diagram name="Layers" id="layers">
+    <mxGraphModel dx="1120" dy="1190" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1120" pageHeight="1190" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="req-0" value="Opens a connection from an ephemeral&lt;br&gt;port (32768-61000) to TCP 5432" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#767171;strokeWidth=0.75;align=left;verticalAlign=top;spacingLeft=12;spacingTop=8;fontFamily=Arial;fontSize=16;fontColor=#232F3E;" vertex="1" parent="1">
+          <mxGeometry x="370" y="163" width="320" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="rep-0" value="Gets the balance and approves&lt;br&gt;the payment" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#767171;strokeWidth=0.75;align=left;verticalAlign=top;spacingLeft=12;spacingTop=8;fontFamily=Arial;fontSize=16;fontColor=#232F3E;" vertex="1" parent="1">
+          <mxGeometry x="770" y="163" width="320" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="req-6" value="Runs the balance query" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#767171;strokeWidth=0.75;align=left;verticalAlign=top;spacingLeft=12;spacingTop=8;fontFamily=Arial;fontSize=16;fontColor=#232F3E;" vertex="1" parent="1">
+          <mxGeometry x="370" y="914" width="320" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="rep-6" value="Answers from TCP 5432 to the app&lt;br&gt;server&#x27;s ephemeral port" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#767171;strokeWidth=0.75;align=left;verticalAlign=top;spacingLeft=12;spacingTop=8;fontFamily=Arial;fontSize=16;fontColor=#232F3E;" vertex="1" parent="1">
+          <mxGeometry x="770" y="903" width="320" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="router" value="Local route 10.40.0.0/16 carries both directions" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#767171;strokeWidth=0.75;align=left;verticalAlign=top;spacingLeft=12;spacingTop=8;fontFamily=Arial;fontSize=16;fontColor=#232F3E;" vertex="1" parent="1">
+          <mxGeometry x="370" y="540" width="720" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="e-req-0-req-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;strokeColor=#232F3E;strokeWidth=2;fontFamily=Arial;fontSize=16;fontColor=#232F3E;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="req-0" target="req-1">
+          <mxGeometry relative="1" as="geometry"></mxGeometry>
+        </mxCell>
+        <mxCell id="e-req-1-req-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;strokeColor=#232F3E;strokeWidth=2;fontFamily=Arial;fontSize=16;fontColor=#232F3E;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="req-1" target="req-2">
+          <mxGeometry relative="1" as="geometry"></mxGeometry>
+        </mxCell>
+        <mxCell id="e-req-2-router" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;strokeColor=#232F3E;strokeWidth=2;fontFamily=Arial;fontSize=16;fontColor=#232F3E;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.222222;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="req-2" target="router">
+          <mxGeometry relative="1" as="geometry"></mxGeometry>
+        </mxCell>
+        <mxCell id="e-router-req-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;strokeColor=#232F3E;strokeWidth=2;fontFamily=Arial;fontSize=16;fontColor=#232F3E;exitX=0.222222;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="router" target="req-4">
+          <mxGeometry relative="1" as="geometry"></mxGeometry>
+        </mxCell>
+        <mxCell id="e-req-4-req-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;strokeColor=#232F3E;strokeWidth=2;fontFamily=Arial;fontSize=16;fontColor=#232F3E;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="req-4" target="req-5">
+          <mxGeometry relative="1" as="geometry"></mxGeometry>
+        </mxCell>
+        <mxCell id="e-req-5-req-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;strokeColor=#232F3E;strokeWidth=2;fontFamily=Arial;fontSize=16;fontColor=#232F3E;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="req-5" target="req-6">
+          <mxGeometry relative="1" as="geometry"></mxGeometry>
+        </mxCell>
+        <mxCell id="e-req-6-rep-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;strokeColor=#232F3E;strokeWidth=1.5;fontFamily=Arial;fontSize=16;fontColor=#232F3E;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="req-6" target="rep-6">
+          <mxGeometry relative="1" as="geometry"></mxGeometry>
+        </mxCell>
+        <mxCell id="e-rep-6-rep-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;strokeColor=#232F3E;strokeWidth=1.5;fontFamily=Arial;fontSize=16;fontColor=#232F3E;dashed=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="rep-6" target="rep-5">
+          <mxGeometry relative="1" as="geometry"></mxGeometry>
+        </mxCell>
+        <mxCell id="e-rep-5-rep-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;strokeColor=#232F3E;strokeWidth=1.5;fontFamily=Arial;fontSize=16;fontColor=#232F3E;dashed=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="rep-5" target="rep-4">
+          <mxGeometry relative="1" as="geometry"></mxGeometry>
+        </mxCell>
+        <mxCell id="e-rep-4-router" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;strokeColor=#232F3E;strokeWidth=1.5;fontFamily=Arial;fontSize=16;fontColor=#232F3E;dashed=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.777778;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="rep-4" target="router">
+          <mxGeometry relative="1" as="geometry"></mxGeometry>
+        </mxCell>
+        <mxCell id="e-router-rep-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;strokeColor=#232F3E;strokeWidth=1.5;fontFamily=Arial;fontSize=16;fontColor=#232F3E;dashed=1;exitX=0.777778;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="router" target="rep-2">
+          <mxGeometry relative="1" as="geometry"></mxGeometry>
+        </mxCell>
+        <mxCell id="e-rep-2-rep-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;strokeColor=#232F3E;strokeWidth=1.5;fontFamily=Arial;fontSize=16;fontColor=#232F3E;dashed=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="rep-2" target="rep-1">
+          <mxGeometry relative="1" as="geometry"></mxGeometry>
+        </mxCell>
+        <mxCell id="e-rep-1-rep-0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endSize=8;strokeColor=#232F3E;strokeWidth=1.5;fontFamily=Arial;fontSize=16;fontColor=#232F3E;dashed=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="rep-1" target="rep-0">
+          <mxGeometry relative="1" as="geometry"></mxGeometry>
+        </mxCell>
+        <mxCell id="h-layer" value="&lt;b&gt;Layer&lt;/b&gt;" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#232F3E;align=left;verticalAlign=top;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="30" y="112" width="290" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="h-req" value="&lt;b&gt;Request&lt;/b&gt;: app server to database, TCP 5432" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#232F3E;align=left;verticalAlign=top;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="370" y="112" width="340" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="h-rep" value="&lt;b&gt;Reply&lt;/b&gt;: database to app server" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#232F3E;align=left;verticalAlign=top;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="770" y="112" width="320" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="app" value="App server&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#5A6C86&quot;&gt;10.40.20.10&lt;/font&gt;&lt;/i&gt;" style="shape=image;aspect=fixed;imageAspect=0;labelBackgroundColor=none;labelPosition=right;verticalLabelPosition=middle;verticalAlign=middle;align=left;spacing=6;html=1;whiteSpace=wrap;labelWidth=187;fontFamily=Arial;fontSize=16;fontColor=#232F3E;image=data:image/svg+xml,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iNDhweCIgaGVpZ2h0PSI0OHB4IiB2aWV3Qm94PSIwIDAgNDggNDgiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+SWNvbi1SZXNvdXJjZS9Db21wdXRlL1Jlc19BbWF6b24tRUMyX0luc3RhbmNlXzQ4PC90aXRsZT4KICAgIDxnIGlkPSJJY29uLVJlc291cmNlL0NvbXB1dGUvUmVzX0FtYXpvbi1FQzJfSW5zdGFuY2VfNDgiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxwYXRoIGQ9Ik05LDM5IEwzOSwzOSBMMzksOSBMOSw5IEw5LDM5IFogTTQ2LDEzIEw0NiwxMSBMNDEsMTEgTDQxLDggQzQxLDcuNDQ4IDQwLjU1Miw3IDQwLDcgTDM3LDcgTDM3LDIgTDM1LDIgTDM1LDcgTDMxLDcgTDMxLDIgTDI5LDIgTDI5LDcgTDI1LDcgTDI1LDIgTDIzLDIgTDIzLDcgTDE5LDcgTDE5LDIgTDE3LDIgTDE3LDcgTDEzLDcgTDEzLDIgTDExLDIgTDExLDcgTDgsNyBDNy40NDcsNyA3LDcuNDQ4IDcsOCBMNywxMSBMMiwxMSBMMiwxMyBMNywxMyBMNywxNyBMMiwxNyBMMiwxOSBMNywxOSBMNywyMyBMMiwyMyBMMiwyNSBMNywyNSBMNywyOSBMMiwyOSBMMiwzMSBMNywzMSBMNywzNSBMMiwzNSBMMiwzNyBMNywzNyBMNyw0MCBDNyw0MC41NTMgNy40NDcsNDEgOCw0MSBMMTEsNDEgTDExLDQ2IEwxMyw0NiBMMTMsNDEgTDE3LDQxIEwxNyw0NiBMMTksNDYgTDE5LDQxIEwyMyw0MSBMMjMsNDYgTDI1LDQ2IEwyNSw0MSBMMjksNDEgTDI5LDQ2IEwzMSw0NiBMMzEsNDEgTDM1LDQxIEwzNSw0NiBMMzcsNDYgTDM3LDQxIEw0MCw0MSBDNDAuNTUyLDQxIDQxLDQwLjU1MyA0MSw0MCBMNDEsMzcgTDQ2LDM3IEw0NiwzNSBMNDEsMzUgTDQxLDMxIEw0NiwzMSBMNDYsMjkgTDQxLDI5IEw0MSwyNSBMNDYsMjUgTDQ2LDIzIEw0MSwyMyBMNDEsMTkgTDQ2LDE5IEw0NiwxNyBMNDEsMTcgTDQxLDEzIEw0NiwxMyBaIiBpZD0iQW1hem9uLUVDMi1JbnN0YW5jZV9SZXNvdXJjZS1JY29uX2xpZ2h0LWJnIiBmaWxsPSIjRUQ3MTAwIj48L3BhdGg+CiAgICA8L2c+Cjwvc3ZnPg==;" vertex="1" parent="1">
+          <mxGeometry x="56" y="171" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="db" value="Amazon RDS&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#5A6C86&quot;&gt;PostgreSQL, 10.40.30.10&lt;/font&gt;&lt;/i&gt;" style="sketch=0;outlineConnect=0;gradientColor=none;strokeColor=none;dashed=0;aspect=fixed;pointerEvents=1;labelPosition=right;verticalLabelPosition=middle;verticalAlign=middle;align=left;spacing=6;html=1;whiteSpace=wrap;labelWidth=187;fontFamily=Arial;fontSize=16;fontColor=#232F3E;fillColor=#C925D1;shape=mxgraph.aws4.rds_instance;" vertex="1" parent="1">
+          <mxGeometry x="56" y="911" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="l-sg-app" value="sg-app&lt;br&gt;Security group on the server&lt;br&gt;Stateful" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#DD344C;strokeWidth=1;align=left;verticalAlign=middle;spacingLeft=5;fontFamily=Arial;fontSize=15;fontColor=#232F3E;" vertex="1" parent="1">
+          <mxGeometry x="30" y="292" width="290" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="l-nacl-app" value="nacl-app&lt;br&gt;Network ACL on the app subnets&lt;br&gt;Stateless" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#DD344C;strokeWidth=1;dashed=1;align=left;verticalAlign=middle;spacingLeft=5;fontFamily=Arial;fontSize=15;fontColor=#232F3E;" vertex="1" parent="1">
+          <mxGeometry x="30" y="422" width="290" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="l-nacl-data" value="nacl-data&lt;br&gt;Network ACL on the data subnets&lt;br&gt;Stateless" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#DD344C;strokeWidth=1;dashed=1;align=left;verticalAlign=middle;spacingLeft=5;fontFamily=Arial;fontSize=15;fontColor=#232F3E;" vertex="1" parent="1">
+          <mxGeometry x="30" y="642" width="290" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="l-sg-db" value="sg-db&lt;br&gt;Security group on the database&lt;br&gt;Stateful" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#DD344C;strokeWidth=1;align=left;verticalAlign=middle;spacingLeft=5;fontFamily=Arial;fontSize=15;fontColor=#232F3E;" vertex="1" parent="1">
+          <mxGeometry x="30" y="772" width="290" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="l-router" value="&lt;b&gt;VPC router&lt;/b&gt;" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#232F3E;align=left;verticalAlign=top;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="38" y="552" width="290" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="req-1" value="Outbound rule allows TCP 5432&lt;br&gt;to sg-db: allowed" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#DD344C;strokeWidth=1;align=left;verticalAlign=middle;spacingLeft=5;fontFamily=Arial;fontSize=15;fontColor=#232F3E;" vertex="1" parent="1">
+          <mxGeometry x="370" y="302" width="320" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="rep-1" value="Stateful: let in automatically,&lt;br&gt;no inbound rule needed" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#DD344C;strokeWidth=1;align=left;verticalAlign=middle;spacingLeft=5;fontFamily=Arial;fontSize=15;fontColor=#232F3E;" vertex="1" parent="1">
+          <mxGeometry x="770" y="302" width="320" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="req-2" value="Outbound rule 100 allows TCP 5432&lt;br&gt;to 10.40.30.0/23: allowed" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#DD344C;strokeWidth=1;dashed=1;align=left;verticalAlign=middle;spacingLeft=5;fontFamily=Arial;fontSize=15;fontColor=#232F3E;" vertex="1" parent="1">
+          <mxGeometry x="370" y="432" width="320" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="rep-2" value="Stateless: inbound rule 110 must&lt;br&gt;allow TCP 1024-65535" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#DD344C;strokeWidth=1;dashed=1;align=left;verticalAlign=middle;spacingLeft=5;fontFamily=Arial;fontSize=15;fontColor=#232F3E;" vertex="1" parent="1">
+          <mxGeometry x="770" y="432" width="320" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="req-4" value="Inbound rule 100 allows TCP 5432&lt;br&gt;from 10.40.20.0/23: allowed" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#DD344C;strokeWidth=1;dashed=1;align=left;verticalAlign=middle;spacingLeft=5;fontFamily=Arial;fontSize=15;fontColor=#232F3E;" vertex="1" parent="1">
+          <mxGeometry x="370" y="652" width="320" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="rep-4" value="Stateless: outbound rule 100 must&lt;br&gt;allow TCP 1024-65535 back" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#DD344C;strokeWidth=1;dashed=1;align=left;verticalAlign=middle;spacingLeft=5;fontFamily=Arial;fontSize=15;fontColor=#232F3E;" vertex="1" parent="1">
+          <mxGeometry x="770" y="652" width="320" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="req-5" value="Inbound rule allows TCP 5432&lt;br&gt;from sg-app: allowed" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#DD344C;strokeWidth=1;align=left;verticalAlign=middle;spacingLeft=5;fontFamily=Arial;fontSize=15;fontColor=#232F3E;" vertex="1" parent="1">
+          <mxGeometry x="370" y="782" width="320" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="rep-5" value="Stateful: let out automatically,&lt;br&gt;with no outbound rules at all" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#DD344C;strokeWidth=1;align=left;verticalAlign=middle;spacingLeft=5;fontFamily=Arial;fontSize=15;fontColor=#232F3E;" vertex="1" parent="1">
+          <mxGeometry x="770" y="782" width="320" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="step-1" value="1" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#000000;strokeColor=none;fontFamily=Arial;fontSize=19;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="332.5" y="307.5" width="35" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="step-2" value="2" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#000000;strokeColor=none;fontFamily=Arial;fontSize=19;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="332.5" y="437.5" width="35" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="step-3" value="3" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#000000;strokeColor=none;fontFamily=Arial;fontSize=19;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="332.5" y="657.5" width="35" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="step-4" value="4" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#000000;strokeColor=none;fontFamily=Arial;fontSize=19;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="332.5" y="787.5" width="35" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="step-5" value="5" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#000000;strokeColor=none;fontFamily=Arial;fontSize=19;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="732.5" y="787.5" width="35" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="step-6" value="6" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#000000;strokeColor=none;fontFamily=Arial;fontSize=19;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="732.5" y="657.5" width="35" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="step-7" value="7" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#000000;strokeColor=none;fontFamily=Arial;fontSize=19;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="732.5" y="437.5" width="35" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="step-8" value="8" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#000000;strokeColor=none;fontFamily=Arial;fontSize=19;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="732.5" y="307.5" width="35" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="title" value="Stateful and stateless filtering&lt;br&gt;&lt;span style=&quot;font-size:17px;font-weight:normal&quot;&gt;Approving a payment: the app server reads the customer&#x27;s balance from the database&lt;/span&gt;" style="text;html=1;fontFamily=Arial;align=left;verticalAlign=top;strokeColor=none;fillColor=none;fontSize=29;fontStyle=1;fontColor=#232F3E;" vertex="1" parent="1">
+          <mxGeometry x="30" y="24" width="1000" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-box" value="&lt;b&gt;Legend&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#767171;strokeWidth=0.75;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;fontFamily=Arial;fontSize=16;fontColor=#232F3E;" vertex="1" parent="1">
+          <mxGeometry x="30" y="1010" width="640" height="146" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-extra-0" value="Solid arrows: the request. Dashed arrows: the reply." style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#232F3E;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="42" y="1050" width="620" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-extra-1" value="Red boxes: security groups (solid) and network ACLs (dashed)." style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#232F3E;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="42" y="1082" width="620" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-extra-2" value="Numbers follow the packet: request 1 to 4, reply 5 to 8." style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#232F3E;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="42" y="1114" width="620" height="32" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
