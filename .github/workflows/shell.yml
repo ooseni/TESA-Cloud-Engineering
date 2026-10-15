@@ -1,0 +1,23 @@
+name: shell
+
+on:
+  push:
+    branches: [main]
+    paths: ["**.sh", ".github/workflows/shell.yml"]
+  pull_request:
+    paths: ["**.sh", ".github/workflows/shell.yml"]
+
+permissions:
+  contents: read
+
+jobs:
+  shellcheck-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: ShellCheck every shell script
+        run: git ls-files -z '*.sh' | xargs -0 shellcheck
+
+      - name: "Module 01: backup and restore tests"
+        run: bash 01-linux-fundamentals/tests/backup_restore_test.sh
