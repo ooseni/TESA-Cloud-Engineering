@@ -5,7 +5,7 @@ Labs, design exercises and infrastructure code from the **TeSA Cloud Engineering
 [![shell](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/shell.yml/badge.svg)](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/shell.yml)
 [![python](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/python.yml/badge.svg)](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/python.yml)
 
-**Tested on every push:** ShellCheck and 7 backup and restore tests (module 01), 12 subnet planner tests (module 03), 33 routing checker tests plus two design audits (module 05), and 25 filter checker tests plus two design audits (module 06), all passing in GitHub Actions. The badges above show the live status.
+**Tested on every push:** ShellCheck and 7 backup and restore tests (module 01), 12 subnet planner tests (module 03), 33 routing checker tests plus two design audits (module 05), 25 filter checker tests plus two design audits (module 06), and 8 end-to-end deploy tests on a real Ubuntu 24.04 machine (module 07), all passing in GitHub Actions. The badges above show the live status.
 
 ## About the programme
 
@@ -33,7 +33,7 @@ This is not an archive of submissions. Each module takes something I did during 
 | 04 | [Public and Private Subnets](04-public-private-subnets/) | Four-tier VPC across two Availability Zones: inbound and outbound traffic, route tables, security groups and NACLs | ✅ |
 | 05 | [Route Tables and Routing](05-route-tables/) | A tested routing checker that traces connections hop by hop and audits a bank VPC for ten routing faults | ✅ |
 | 06 | [Security Groups and Network ACLs](06-security-groups-nacls/) | A tested filter checker: least-privilege security groups and a network ACL per tier, traced request and reply | ✅ |
-| 07 | EC2 Web Server | Apache on Ubuntu, user data, troubleshooting a port conflict | ⬜ |
+| 07 | [EC2 Web Server](07-ec2-web-server/) | A tested Apache deploy script for EC2 user data that fixes the lab's port 80 conflict; no SSH, Session Manager | ✅ |
 | 08 | Cloud Migration Strategies | The 7 Rs applied to a portfolio of systems | ⬜ |
 | 09 | Network Architecture Design Studies | Four anonymised designs: inbound inspection, selective egress scanning, partner API integration, flat-network remediation | ⬜ |
 | 10 | S3 Static Website | Console lab rebuilt in Terraform as a private bucket behind CloudFront with HTTPS | ⬜ |
@@ -54,7 +54,7 @@ This is not an archive of submissions. Each module takes something I did during 
 | Storage and content delivery: S3, CloudFront | 10 |
 | Databases: Amazon RDS, SQL | 11 |
 | Infrastructure as Code: Terraform | 10, 11, 12, 13 |
-| CI/CD: GitHub Actions | 01, 13 |
+| CI/CD: GitHub Actions | 01, 03, 05, 06, 07, 13 |
 | Architecture and decision records | 02, 08, 09, 14 |
 
 ## How each module is laid out
