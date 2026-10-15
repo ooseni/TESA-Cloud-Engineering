@@ -2,6 +2,17 @@
 
 **Exercise date:** 12 March 2026 | **Type:** design exercise, no AWS resources | **Status:** rebuilt and corrected
 
+**At a glance**
+
+- **Outcome:** a four-tier VPC across two Availability Zones in which only the load balancer and NAT gateways face the internet, and the database cannot reach it at all.
+- **Built:** inbound and outbound traffic-flow diagrams, route tables, security group and network ACL rules, and an analysis of ten misconfigurations.
+- **Stack:** Amazon VPC, Application Load Balancer, AWS WAF, NAT gateways, Amazon EC2, Amazon RDS Multi-AZ.
+- **Proof:** every rule is checked against AWS documentation (sources listed), and 9 mistakes in my original answer are corrected below.
+
+<img alt="Four-tier fintech VPC in two Availability Zones with numbered inbound and lettered outbound traffic" src="diagrams/dark/fintech-vpc-traffic-traffic-flow.png">
+
+To zoom in, right-click the diagram and open the image in a new tab. The editable source is [`diagrams/fintech-vpc-traffic.drawio`](diagrams/fintech-vpc-traffic.drawio). It has three pages: both directions together (above), inbound only and outbound only.
+
 ## The task, in my own words
 
 A fintech's network fails basic security: its main database has a public IP address in a public subnet, every tier shares one flat public subnet, and the web servers keep customer balances. Redesign it as a segmented VPC, decide which tiers must be public and which private, trace how internet traffic reaches each tier, and work through ten common misconfigurations: what is wrong with each, how to fix it, and what part the internet gateway plays.
@@ -16,9 +27,7 @@ A fintech's network fails basic security: its main database has a public IP addr
 
 Four tiers, each with its own subnet in each of two Availability Zones, in VPC `10.40.0.0/16` in eu-west-1.
 
-<img alt="Four-tier fintech VPC in two Availability Zones with numbered inbound and lettered outbound traffic" src="diagrams/dark/fintech-vpc-traffic-traffic-flow.png">
-
-To zoom in, right-click the diagram and open the image in a new tab. The editable source is [`diagrams/fintech-vpc-traffic.drawio`](diagrams/fintech-vpc-traffic.drawio). It has three pages: both directions together (above), inbound only and outbound only.
+The diagram at the top of this page shows both directions. Its steps:
 
 **Inbound (numbered)**
 

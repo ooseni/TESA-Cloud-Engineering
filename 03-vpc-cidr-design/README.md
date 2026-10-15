@@ -2,6 +2,17 @@
 
 **Exercise date:** 5 March 2026 | **Type:** address planning on paper | **Status:** rebuilt as a tested planning tool
 
+**At a glance**
+
+- **Outcome:** right-sized, non-overlapping subnets for every tier in every Availability Zone, with 75% of the VPC left free to grow.
+- **Built:** `cidr_plan.py`, a command-line planner that also refuses address ranges that overlap on-premises networks.
+- **Stack:** Python 3 (standard library only), unittest, GitHub Actions.
+- **Proof:** 12 unit tests pass in CI on every push.
+
+<img alt="VPC 10.30.0.0/16 with public, app and data subnets in three Availability Zones" src="diagrams/dark/vpc-address-plan.png">
+
+To zoom in, right-click the diagram and open the image in a new tab. The editable source is [`diagrams/vpc-address-plan.drawio`](diagrams/vpc-address-plan.drawio).
+
 ## The task, in my own words
 
 Plan the IP addresses for a VPC: choose its CIDR block, split it into subnets for each tier of an application, and leave room to grow.
@@ -66,9 +77,7 @@ $ python cidr_plan.py plan 10.30.0.0/16 --azs a,b,c \
 
 Allocated 16,128 of 65,536 addresses (25%); free blocks: `10.30.63.0/24`, `10.30.64.0/18`, `10.30.128.0/17`.
 
-<img alt="VPC 10.30.0.0/16 with public, app and data subnets in three Availability Zones" src="diagrams/dark/vpc-address-plan.png">
-
-To zoom in, right-click the diagram and open the image in a new tab. The editable source is [`diagrams/vpc-address-plan.drawio`](diagrams/vpc-address-plan.drawio).
+The diagram at the top of this page draws this plan.
 
 ### How it is tested
 

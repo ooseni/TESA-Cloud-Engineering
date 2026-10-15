@@ -2,6 +2,13 @@
 
 **Lab date:** 26 February 2026 | **Environment:** Amazon Linux on an EC2 instance in the programme's training account | **Status:** rebuilt and tested
 
+**At a glance**
+
+- **Outcome:** a backup and restore tool that refuses to restore a damaged archive and never overwrites existing data.
+- **Built:** `backup.sh` and `restore.sh`, with SHA-256 checksums, strict mode and clear exit codes.
+- **Stack:** Bash, tar, sha256sum, ShellCheck, GitHub Actions.
+- **Proof:** 7 end-to-end tests and ShellCheck pass in CI on every push.
+
 ## The task, in my own words
 
 Working over SSH on a Linux server: create a working folder and a text file from the command line, confirm the server can reach the internet, then write a shell script that backs up a folder into a timestamped archive, and prove the backup can be restored.

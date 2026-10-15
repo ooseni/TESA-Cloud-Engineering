@@ -2,6 +2,17 @@
 
 **Exercise date:** 12 March 2026 | **Type:** design exercise, no AWS resources | **Status:** rebuilt as a tested routing checker
 
+**At a glance**
+
+- **Outcome:** a checker that traces a connection hop by hop through a VPC's route tables and catches the ten routing faults that expose a bank's data or break its payments.
+- **Built:** `route_check.py` (tables, trace, audit), a fixed and an as-found bank VPC, and a route table diagram.
+- **Stack:** Python 3 (standard library only), JSON, unittest, GitHub Actions.
+- **Proof:** 33 unit tests and two design audits pass in CI on every push.
+
+<img alt="Bank VPC with one route table per tier and zone, linked to the internet gateway and NAT gateways" src="diagrams/dark/bank-vpc-routing-fixed.png">
+
+To zoom in, right-click the diagram and open the image in a new tab. The editable source is [`diagrams/bank-vpc-routing.drawio`](diagrams/bank-vpc-routing.drawio), with a second page for the as-found VPC below.
+
 ## The task, in my own words
 
 A bank's VPC has routing faults: a database subnet with a default route to the internet gateway, tiers sharing one route table, internal traffic sent the wrong way, payment calls timing out. For ten such faults, say what is wrong, how the traffic actually flows, what the route tables should look like and what the fault risks for a bank. Then trace a request from the internet through the web, app and database tiers of a correctly routed VPC, say which subnets have a default route and why, and assess what happens when a database subnet routes `0.0.0.0/0` to the internet gateway.
@@ -34,9 +45,7 @@ $ python route_check.py audit examples/as-found.json       # exit code 1 on any 
 
 VPC `10.10.0.0/16` in eu-west-1, four tiers in two Availability Zones, described in [`examples/bank-vpc.json`](examples/bank-vpc.json).
 
-<img alt="Bank VPC with one route table per tier and zone, linked to the internet gateway and NAT gateways" src="diagrams/dark/bank-vpc-routing-fixed.png">
-
-To zoom in, right-click the diagram and open the image in a new tab. The editable source is [`diagrams/bank-vpc-routing.drawio`](diagrams/bank-vpc-routing.drawio), with a second page for the as-found VPC below.
+The diagram at the top of this page shows the route tables and what each one connects to.
 
 | Route table | Subnets | Routes | Why |
 |---|---|---|---|

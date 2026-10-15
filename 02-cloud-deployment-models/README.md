@@ -2,6 +2,17 @@
 
 **Exercise date:** 21 February 2026 | **Type:** design exercise, no AWS resources | **Status:** rebuilt and corrected
 
+**At a glance**
+
+- **Outcome:** a hybrid design for a bank that keeps Nigerian personal data, its backups and its logs in Nigeria, serves EU customers from AWS, and recovers in under 15 minutes without moving data abroad.
+- **Built:** an architecture diagram, a workload placement table, a recovery plan and two architecture decision records.
+- **Stack:** two in-country data centres, AWS Local Zone (Lagos), AWS Direct Connect, Amazon API Gateway, AWS Fargate, Amazon RDS, Amazon S3 Object Lock.
+- **Proof:** every constraint is traced to a design decision, and 7 mistakes in my original answer are corrected below.
+
+<img alt="Hybrid bank architecture: Nigerian data in two in-country data centres and the Lagos Local Zone, EU services in AWS eu-west-1" src="diagrams/dark/hybrid-deployment.png">
+
+To zoom in, right-click the diagram and open the image in a new tab. The editable source is [`diagrams/hybrid-deployment.drawio`](diagrams/hybrid-deployment.drawio).
+
 ## The task, in my own words
 
 A bank with customers in Nigeria and the European Union wants to modernise its infrastructure. Choose a deployment model (public, private, community or hybrid cloud) and decide where each workload runs, under nine constraints that pull in different directions:
@@ -27,9 +38,7 @@ A bank with customers in Nigeria and the European Union wants to modernise its i
 
 ## The rebuilt solution
 
-<img alt="Hybrid bank architecture: Nigerian data in two in-country data centres and the Lagos Local Zone, EU services in AWS eu-west-1" src="diagrams/dark/hybrid-deployment.png">
-
-To zoom in, right-click the diagram and open the image in a new tab. The editable source is [`diagrams/hybrid-deployment.drawio`](diagrams/hybrid-deployment.drawio).
+The diagram at the top of this page shows the design. Its numbered steps:
 
 1. **Nigerian customers** reach **core banking** in the primary Lagos data centre.
 2. Core banking and the **customer database** share a site, so the round trip stays under 5 ms. No cloud Region can match that: Lagos to Cape Town is about 4,800 km, at least 48 ms there and back in fibre.
