@@ -3,9 +3,9 @@ name: python
 on:
   push:
     branches: [main]
-    paths: ["**.py", "05-route-tables/examples/**", ".github/workflows/python.yml"]
+    paths: ["**.py", "05-route-tables/examples/**", "06-security-groups-nacls/examples/**", ".github/workflows/python.yml"]
   pull_request:
-    paths: ["**.py", "05-route-tables/examples/**", ".github/workflows/python.yml"]
+    paths: ["**.py", "05-route-tables/examples/**", "06-security-groups-nacls/examples/**", ".github/workflows/python.yml"]
   workflow_dispatch:
 
 permissions:
@@ -30,6 +30,20 @@ jobs:
           # the as-found design must fail the audit with exit code 1
           set +e
           python3 route_check.py audit examples/as-found.json
+          code=$?
+          set -e
+          test "$code" -eq 1
+
+      - name: "Module 06: filter checker tests"
+        run: python3 -m unittest discover -s 06-security-groups-nacls -v
+
+      - name: "Module 06: audit the example designs"
+        working-directory: 06-security-groups-nacls
+        run: |
+          python3 filter_check.py audit examples/bank-filters.json
+          # the as-found design must fail the audit with exit code 1
+          set +e
+          python3 filter_check.py audit examples/as-found.json
           code=$?
           set -e
           test "$code" -eq 1
