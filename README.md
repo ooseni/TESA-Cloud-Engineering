@@ -25,7 +25,7 @@ This is not an archive of submissions. Each module takes something I did during 
 | # | Module | What it shows | Status |
 |---|---|---|---|
 | 01 | [Linux Fundamentals](01-linux-fundamentals/) | Bash backup and restore with checksums, strict mode and automated tests | ✅ |
-| 02 | Cloud Deployment Models | Public, private and hybrid cloud for a regulated bank, data residency | ⬜ |
+| 02 | [Cloud Deployment Models](02-cloud-deployment-models/) | Hybrid design for a regulated bank: data residency, latency, recovery, two decision records | ✅ |
 | 03 | VPC and CIDR Design | Address planning, subnet sizing across Availability Zones | ⬜ |
 | 04 | Public and Private Subnets | Tiered VPC across two Availability Zones, load balancer, NAT | ⬜ |
 | 05 | Route Tables and Routing | Internet gateway, NAT gateway, local routes, route evaluation | ⬜ |
