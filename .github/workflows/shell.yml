@@ -6,6 +6,7 @@ on:
     paths: ["**.sh", ".github/workflows/shell.yml"]
   pull_request:
     paths: ["**.sh", ".github/workflows/shell.yml"]
+  workflow_dispatch:
 
 permissions:
   contents: read
