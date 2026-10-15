@@ -16,11 +16,9 @@ A fintech's network fails basic security: its main database has a public IP addr
 
 Four tiers, each with its own subnet in each of two Availability Zones, in VPC `10.40.0.0/16` in eu-west-1.
 
-<a href="diagrams/dark/fintech-vpc-traffic-traffic-flow.drawio.svg">
-  <img alt="Four-tier fintech VPC in two Availability Zones with numbered inbound and lettered outbound traffic" src="diagrams/dark/fintech-vpc-traffic-traffic-flow.drawio.svg">
-</a>
+<img alt="Four-tier fintech VPC in two Availability Zones with numbered inbound and lettered outbound traffic" src="diagrams/dark/fintech-vpc-traffic-traffic-flow.png">
 
-Select the diagram to open it full size. The editable source is [`diagrams/fintech-vpc-traffic.drawio`](diagrams/fintech-vpc-traffic.drawio). It has three pages: both directions together (above), inbound only and outbound only.
+To zoom in, right-click the diagram and open the image in a new tab. The editable source is [`diagrams/fintech-vpc-traffic.drawio`](diagrams/fintech-vpc-traffic.drawio). It has three pages: both directions together (above), inbound only and outbound only.
 
 **Inbound (numbered)**
 
@@ -42,18 +40,14 @@ Select the diagram to open it full size. The editable source is [`diagrams/finte
 <details>
 <summary>Inbound traffic only</summary>
 
-<a href="diagrams/dark/fintech-vpc-traffic-inbound.drawio.svg">
-  <img alt="Inbound path: customer, internet gateway, load balancer, web server, app server, database" src="diagrams/dark/fintech-vpc-traffic-inbound.drawio.svg">
-</a>
+<img alt="Inbound path: customer, internet gateway, load balancer, web server, app server, database" src="diagrams/dark/fintech-vpc-traffic-inbound.png">
 
 </details>
 
 <details>
 <summary>Outbound traffic only</summary>
 
-<a href="diagrams/dark/fintech-vpc-traffic-outbound.drawio.svg">
-  <img alt="Outbound path: app server, NAT gateway in the same zone, internet gateway, payment provider" src="diagrams/dark/fintech-vpc-traffic-outbound.drawio.svg">
-</a>
+<img alt="Outbound path: app server, NAT gateway in the same zone, internet gateway, payment provider" src="diagrams/dark/fintech-vpc-traffic-outbound.png">
 
 </details>
 
