@@ -5,6 +5,8 @@ Labs, design exercises and infrastructure code from the **TeSA Cloud Engineering
 [![shell](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/shell.yml/badge.svg)](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/shell.yml)
 [![python](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/python.yml/badge.svg)](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/python.yml)
 
+**Tested on every push:** ShellCheck and 7 backup and restore tests (module 01), 12 subnet planner tests (module 03), and 33 routing checker tests plus two design audits (module 05), all passing in GitHub Actions. The badges above show the live status.
+
 ## About the programme
 
 The Tech Skills Accelerator Programme (TeSA), run by Univaciti, is an intensive hybrid programme in Nigeria. I completed its Cloud Engineering cohort between February and April 2026, finishing with an internship week at a cloud consultancy, and was awarded a graduation cash prize by the CEO for technical performance.
@@ -57,15 +59,16 @@ This is not an archive of submissions. Each module takes something I did during 
 
 ## How each module is laid out
 
-1. **The task, in my own words.**
-2. **What I did in the lab**, with redacted evidence.
-3. **The rebuilt solution**: code, diagrams, rule and route tables.
-4. **How it is tested**, where there is code to test.
-5. **Mistakes I fixed.**
-6. **Lab vs production**, by Well-Architected pillar.
-7. **What I learned.**
+1. **At a glance**: the outcome, what was built, the tools used and the proof, with the main diagram.
+2. **The task, in my own words.**
+3. **What I did in the lab**, with redacted evidence.
+4. **The rebuilt solution**: code, diagrams, rule and route tables.
+5. **How it is tested**, where there is code to test.
+6. **Mistakes I fixed.**
+7. **Lab vs production**, by Well-Architected pillar.
+8. **What I learned.**
 
-AWS diagrams use the official AWS Architecture Icons and are kept as editable draw.io files alongside SVG and PNG exports.
+AWS diagrams use the official AWS Architecture Icons and are kept as editable draw.io files alongside SVG and PNG exports. To zoom into any diagram, right-click it and open the image in a new tab.
 
 ## Author
 
