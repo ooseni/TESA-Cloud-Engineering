@@ -28,7 +28,7 @@ This is not an archive of submissions. Each module takes something I did during 
 | 01 | [Linux Fundamentals](01-linux-fundamentals/) | Bash backup and restore with checksums, strict mode and automated tests | ✅ |
 | 02 | [Cloud Deployment Models](02-cloud-deployment-models/) | Hybrid design for a regulated bank: data residency, latency, recovery, two decision records | ✅ |
 | 03 | [VPC and CIDR Design](03-vpc-cidr-design/) | A tested Python tool that plans right-sized, non-overlapping subnets across Availability Zones | ✅ |
-| 04 | Public and Private Subnets | Tiered VPC across two Availability Zones, load balancer, NAT | ⬜ |
+| 04 | [Public and Private Subnets](04-public-private-subnets/) | Four-tier VPC across two Availability Zones: inbound and outbound traffic, route tables, security groups and NACLs | ✅ |
 | 05 | Route Tables and Routing | Internet gateway, NAT gateway, local routes, route evaluation | ⬜ |
 | 06 | Security Groups vs Network ACLs | Stateful and stateless filtering, numbered rule tables | ⬜ |
 | 07 | EC2 Web Server | Apache on Ubuntu, user data, troubleshooting a port conflict | ⬜ |
