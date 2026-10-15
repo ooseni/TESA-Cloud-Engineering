@@ -27,11 +27,8 @@ A bank with customers in Nigeria and the European Union wants to modernise its i
 
 ## The rebuilt solution
 
-<a href="diagrams/hybrid-deployment.drawio.svg">
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="diagrams/dark/hybrid-deployment.drawio.svg">
-  <img alt="Hybrid bank architecture: Nigerian data in two in-country data centres and the Lagos Local Zone, EU services in AWS eu-west-1" src="diagrams/hybrid-deployment.drawio.svg">
-</picture>
+<a href="diagrams/dark/hybrid-deployment.drawio.svg">
+  <img alt="Hybrid bank architecture: Nigerian data in two in-country data centres and the Lagos Local Zone, EU services in AWS eu-west-1" src="diagrams/dark/hybrid-deployment.drawio.svg">
 </a>
 
 Select the diagram to open it full size. The editable source is [`diagrams/hybrid-deployment.drawio`](diagrams/hybrid-deployment.drawio).
