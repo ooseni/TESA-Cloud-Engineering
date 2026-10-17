@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        module: [10-s3-static-website/terraform]
+        module: [10-s3-static-website/terraform, 11-rds-sql-server/terraform]
     defaults:
       run:
         working-directory: ${{ matrix.module }}
