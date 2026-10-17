@@ -1,6 +1,6 @@
 # 09 | Network Architecture Design Studies
 
-**Questions received:** 10 March 2026 | **Type:** four design studies, no AWS resources | **Status:** in progress, one of four done
+**Questions received:** March 2026 | **Type:** four design studies, no AWS resources | **Status:** in progress, two of four done
 
 **At a glance**
 
@@ -12,7 +12,7 @@
 | # | Study | The requirement it answers | Status |
 |---|---|---|---|
 | 1 | [Inbound inspection for a telemedicine platform](01-inbound-inspection/) | Every packet from the internet passes a third-party IDS before it reaches any component; medical records are never reachable from the internet | ✅ |
-| 2 | Selective egress scanning | Outbound traffic from one platform's application servers is scanned; the other platform's bypasses the scanner | ⬜ |
+| 2 | [Selective egress scanning for two platforms](02-selective-egress-scanning/) | Outbound traffic from one platform's application servers is scanned; the other platform's bypasses the scanner | ✅ |
 | 3 | Partner API integration | A bank's application servers call a partner's API over the internet, while customer traffic and internal traffic keep strict boundaries | ⬜ |
 | 4 | Flat-network remediation | A payments company's single flat subnet and overloaded proxy led to a breach; segment and rebuild it | ⬜ |
 
