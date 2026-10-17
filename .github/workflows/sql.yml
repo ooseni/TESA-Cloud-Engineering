@@ -1,0 +1,50 @@
+name: sql
+
+on:
+  push:
+    branches: [main]
+    paths: ["11-rds-sql-server/sql/**", "11-rds-sql-server/tests/sql_test.sh", ".github/workflows/sql.yml"]
+  pull_request:
+    paths: ["11-rds-sql-server/sql/**", "11-rds-sql-server/tests/sql_test.sh", ".github/workflows/sql.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  # SQL Server 2022 Express, the same major version and edition as the RDS instance in module 11
+  MSSQL_IMAGE: mcr.microsoft.com/mssql/server:2022-CU26-ubuntu-22.04
+
+jobs:
+  sql-tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Start SQL Server Express in a container
+        run: |
+          # a fresh password for this run only, meeting SQL Server's complexity rules
+          sa_password="Sa1!$(openssl rand -hex 16)"
+          echo "::add-mask::$sa_password"
+          echo "DB_ADMIN_PASSWORD=$sa_password" >> "$GITHUB_ENV"
+          app_password="Ap1!$(openssl rand -hex 16)"
+          echo "::add-mask::$app_password"
+          echo "APP_PASSWORD=$app_password" >> "$GITHUB_ENV"
+          docker run -d --name mssql -p 1433:1433 -e ACCEPT_EULA=Y -e MSSQL_PID=Express \
+            -e MSSQL_SA_PASSWORD="$sa_password" "$MSSQL_IMAGE"
+          for _ in $(seq 1 60); do
+            if docker exec -e SQLCMDPASSWORD="$sa_password" mssql \
+                 /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -C -Q "SELECT 1" >/dev/null 2>&1; then
+              echo "SQL Server is ready"; exit 0
+            fi
+            sleep 2
+          done
+          docker logs mssql | tail -20
+          exit 1
+
+      - name: "Module 11: SQL tests"
+        env:
+          DB_HOST: 127.0.0.1,1433
+          DB_ADMIN_USER: sa
+          SQLCMD_IMAGE: ${{ env.MSSQL_IMAGE }}
+        run: bash 11-rds-sql-server/tests/sql_test.sh
