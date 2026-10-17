@@ -5,8 +5,9 @@ Labs, design exercises and infrastructure code from the **TeSA Cloud Engineering
 [![shell](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/shell.yml/badge.svg)](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/shell.yml)
 [![python](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/python.yml/badge.svg)](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/python.yml)
 [![terraform](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/terraform.yml/badge.svg)](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/terraform.yml)
+[![sql](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/sql.yml/badge.svg)](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/sql.yml)
 
-**Tested on every push:** ShellCheck and 7 backup and restore tests (module 01), 12 subnet planner tests (module 03), 33 routing checker tests plus two design audits (module 05), 25 filter checker tests plus two design audits (module 06), 8 end-to-end deploy tests on a real Ubuntu 24.04 machine (module 07), and Terraform format, validation, tflint and checkov security checks (module 10), all passing in GitHub Actions. The badges above show the live status.
+**Tested on every push:** ShellCheck and 7 backup and restore tests (module 01), 12 subnet planner tests (module 03), 33 routing checker tests plus two design audits (module 05), 25 filter checker tests plus two design audits (module 06), 8 end-to-end deploy tests on a real Ubuntu 24.04 machine (module 07), Terraform format, validation, tflint and checkov security checks (modules 10 and 11), and 13 SQL tests against SQL Server 2022 Express in a container (module 11), all passing in GitHub Actions. The badges above show the live status.
 
 ## About the programme
 
@@ -38,7 +39,7 @@ This is not an archive of submissions. Each module takes something I did during 
 | 08 | [Cloud Migration Strategies](08-cloud-migration-strategies/) | The 7 Rs for a microfinance bank's six systems: a six-month plan using the Lagos Local Zone, with three decision records | ✅ |
 | 09 | [Network Architecture Design Studies](09-network-design-studies/) | Four anonymised designs: inbound inspection, selective egress scanning, partner API integration, flat-network remediation | ✅ |
 | 10 | [S3 Static Website](10-s3-static-website/) | Console lab rebuilt in Terraform as a private bucket behind CloudFront with HTTPS, deployed and smoke-tested | ✅ |
-| 11 | RDS for SQL Server | Private database, lab vs production hardening, SQL tested in CI | ⬜ |
+| 11 | [RDS for SQL Server](11-rds-sql-server/) | Private SQL Server reached only through a Session Manager tunnel; SQL tested in CI against a container and live against RDS | ✅ |
 | 12 | Terraform: VPC and EC2 | My first Terraform lab, hardened (no SSH, SSM, encryption, IMDSv2) | ⬜ |
 | 13 | Infrastructure as Code CI/CD | GitHub Actions with OIDC, remote state, plan on pull request, gated apply | ⬜ |
 | 14 | Capstone: Hybrid Payments Gateway | Anonymised hybrid modernisation case study with decision records | ⬜ |
