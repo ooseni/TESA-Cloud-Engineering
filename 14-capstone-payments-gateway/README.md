@@ -5,7 +5,7 @@
 **At a glance**
 
 - **Outcome:** a hybrid target design for a Nigerian payment processor's bill and top-up gateway. Three products move to AWS; the system of record and state revenue stay in Lagos. No payment can be delivered twice, none is lost once accepted, and payments keep flowing when the link to Lagos is down.
-- **Built:** the target, network and current-state diagrams; five decision records; requirements I set, a failure-handling table and a monthly cost estimate; the current and target payment flows as sequence diagrams; a demo of the payment path in Docker Compose, with 27 tests; and a Terraform live run that runs the same code and tests on real AWS services.
+- **Built:** the target, network and current-state diagrams; five decision records and a 21-slide [decision pack (PDF)](decisions/payments-gateway-adr-pack.pdf) for a review board; requirements I set, a failure-handling table and a monthly cost estimate; the current and target payment flows as sequence diagrams; a demo of the payment path in Docker Compose, with 27 tests; and a Terraform live run that runs the same code and tests on real AWS services.
 - **Stack:** Application Load Balancer with AWS WAF and mutual TLS, Amazon ECS on AWS Fargate, Amazon DynamoDB with DynamoDB Streams, AWS Lambda, Amazon MSK, AWS Transit Gateway, AWS Site-to-Site VPN, AWS Direct Connect, IAM Roles Anywhere; for the demo, Python, FastAPI, DynamoDB Local, Apache Kafka, PostgreSQL and pytest; for the live run, Terraform and Systems Manager Run Command.
 - **Proof:** on 18 October 2026 the same 27 tests passed on AWS, against DynamoDB, the Lambda relay on the table's stream and Amazon MSK with IAM authentication: 75 relay invocations, 0 errors, then everything destroyed. They also pass locally and in GitHub Actions on every change: twenty identical requests at once are delivered once; late, lost and failing vendors settle exactly as ADR-0004 says; the system of record catches up after an outage, and replaying the whole topic changes nothing. Every design claim is checked against AWS documentation, and every price comes from the AWS Price List API (about $2,690 a month at 3 million payments a day).
 
@@ -351,6 +351,8 @@ The suite passed on the third run. Each of these was found by running it, and is
 6. **A test that assumed a fresh topic.** The second run reset the system of record but not the topic, so replaying the topic added 13 payments the reset database had missed: the recovery [ADR-0002](decisions/0002-sync-the-system-of-record-through-dynamodb-streams-and-amazon-msk.md) promises, but not what the test expected. The test now replays twice: the first replay brings the system of record up to date, and the second must change nothing.
 
 ## Decisions
+
+The [decision pack (PDF, 21 slides)](decisions/payments-gateway-adr-pack.pdf) presents these five records to a review board, with the requirements, the risks, the cost, the proof and the roadmap. Its decision requested: endorse ADR-0001 to ADR-0004, and ask the compliance team to decide ADR-0005 before the foundations phase starts.
 
 | ID | Decision | Status |
 |---|---|---|
