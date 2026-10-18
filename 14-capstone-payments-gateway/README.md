@@ -1,13 +1,13 @@
 # 14 | Capstone: hybrid modernisation of a payments gateway
 
-**Capstone:** 10 to 14 April 2026 | **Type:** TeSA capstone, an internship week with a cloud consultancy; the client is not named | **Status:** design complete; the demo and a live AWS run are in progress
+**Capstone:** 10 to 14 April 2026 | **Type:** TeSA capstone, an internship week with a cloud consultancy; the client is not named | **Status:** design complete and proven in a runnable demo; a live AWS run is in progress
 
 **At a glance**
 
 - **Outcome:** a hybrid target design for a Nigerian payment processor's bill and top-up gateway. Three products move to AWS; the system of record and state revenue stay in Lagos. No payment can be delivered twice, none is lost once accepted, and payments keep flowing when the link to Lagos is down.
-- **Built:** the target, network and current-state diagrams; five decision records; requirements I set, a failure-handling table and a monthly cost estimate; and the current and target payment flows as sequence diagrams.
-- **Stack:** Application Load Balancer with AWS WAF and mutual TLS, Amazon ECS on AWS Fargate, Amazon DynamoDB with DynamoDB Streams, AWS Lambda, Amazon MSK, AWS Transit Gateway, AWS Site-to-Site VPN, AWS Direct Connect, IAM Roles Anywhere.
-- **Proof:** every design claim is checked against AWS documentation (sources below), and every price comes from the AWS Price List API for af-south-1 on 18 October 2026: about $2,690 a month at 3 million payments a day. A runnable demo of the failure handling, and a short run of the same code on DynamoDB, Lambda and MSK, come next.
+- **Built:** the target, network and current-state diagrams; five decision records; requirements I set, a failure-handling table and a monthly cost estimate; the current and target payment flows as sequence diagrams; and a demo of the payment path in Docker Compose, with 27 tests.
+- **Stack:** Application Load Balancer with AWS WAF and mutual TLS, Amazon ECS on AWS Fargate, Amazon DynamoDB with DynamoDB Streams, AWS Lambda, Amazon MSK, AWS Transit Gateway, AWS Site-to-Site VPN, AWS Direct Connect, IAM Roles Anywhere; for the demo, Python, FastAPI, DynamoDB Local, Apache Kafka, PostgreSQL and pytest.
+- **Proof:** the demo's 27 tests pass on every run: twenty identical requests at once are delivered once; late, lost and failing vendors settle exactly as ADR-0004 says; the system of record catches up after an outage, and replaying the whole topic changes nothing. Every design claim is checked against AWS documentation, and every price comes from the AWS Price List API (about $2,690 a month at 3 million payments a day). A short run of the same code on DynamoDB, Lambda and MSK comes next.
 
 <img alt="Hybrid target: channels reach a gateway on ECS in Cape Town; DynamoDB claims each payment; state changes stream through Lambda and MSK to a consumer in Lagos" src="diagrams/dark/payments-gateway-target.png">
 
@@ -228,6 +228,71 @@ On-demand prices for af-south-1 from the AWS Price List API, 18 October 2026, fo
 
 Connectivity (Direct Connect, Transit Gateway, the VPNs and the Resolver endpoint) is 47% of the bill, more than compute and data together. The cost estimate leaves out AWS Support, colocation and cross-connect fees in Lagos, and the vendors' side of each VPN.
 
+## The demo
+
+The [demo](demo/) runs the payment path from the decisions on one machine, and its tests prove each row of the failure table above.
+
+| Container | Stands for |
+|---|---|
+| `gateway` | The gateway service: claims each payment, calls the vendor once, records the outcome ([`gateway.py`](demo/paygate/gateway.py), [`store.py`](demo/paygate/store.py), [`vendors.py`](demo/paygate/vendors.py)) |
+| `requery` | The re-query worker ([`requery.py`](demo/paygate/requery.py)) |
+| `relay` | The Lambda relay. Its `handler` takes Lambda's event; locally a loop reads DynamoDB Local's stream and calls the same function ([`relay.py`](demo/paygate/relay.py)) |
+| `consumer` | The sync consumer in Lagos, with the version guard and the dead-letter topic ([`consumer.py`](demo/paygate/consumer.py)) |
+| `dynamodb` | The payments table: DynamoDB Local 3.1, with its stream and the re-query index |
+| `kafka` | Amazon MSK: Apache Kafka 3.9.1, one broker, 12 partitions |
+| `sor` | The system of record: PostgreSQL 17 ([`schema.sql`](demo/paygate/schema.sql)) |
+| `vendor` | The vendors' APIs. The customer reference picks a behaviour: `OK`, `DECLINE`, `SLOW` (delivers, answers too late), `LOST` (never arrives), `FLAKY` (status queries fail) ([`vendor_mock.py`](demo/paygate/vendor_mock.py)) |
+
+The timings are shortened so the tests take about a minute: a 2-second vendor timeout, re-queries after 1, 1 and 2 seconds within an 8-second window, and a claim counted as stale after 4 seconds. The production values are the defaults in [`config.py`](demo/paygate/config.py).
+
+### Running it
+
+```bash
+cd 14-capstone-payments-gateway/demo
+docker compose up --detach --build --wait gateway vendor requery relay consumer
+python3 -m venv .venv && .venv/bin/pip install -r requirements-test.txt
+REQUIRE_DEMO=1 .venv/bin/python -m pytest
+docker compose down --volumes
+```
+
+It needs about 1.5 GB of memory. The [`capstone-demo`](../.github/workflows/capstone-demo.yml) workflow does the same on every push that changes the demo.
+
+### What the tests prove
+
+| Test | Proves |
+|---|---|
+| A payment succeeds and reaches the system of record | The whole path: claim, vendor, outcome, stream, relay, topic, consumer |
+| Twenty identical requests at once are delivered once | One claim wins ([ADR-0001](decisions/0001-claim-each-payment-once-with-a-dynamodb-conditional-write.md)): the vendor counts one delivery, and all twenty answers carry the same payment |
+| A retry gets the original answer | Channels can retry safely |
+| A reference reused for a different payment is refused | `409 Conflict`, and nothing is sent |
+| A declined payment fails | `FAILED`, recorded in the system of record |
+| A late answer after delivery is settled by a re-query | `UNKNOWN`, then `SUCCESS` from the re-query, with one delivery ([ADR-0004](decisions/0004-resolve-unknown-outcomes-by-re-querying-never-by-re-sending.md)) |
+| A payment lost on the way fails when the window closes | `UNKNOWN`, then `FAILED`, with no delivery |
+| A vendor that keeps erroring sends the payment to review | `REVIEW`, for operations |
+| A claim left by a stopped task is recovered | A stale `PENDING` claim ends `FAILED`, with nothing sent |
+| An older version never overwrites a newer one | The consumer's version guard ([ADR-0002](decisions/0002-sync-the-system-of-record-through-dynamodb-streams-and-amazon-msk.md)) |
+| A reference reused after the window is flagged, not lost | The system of record's unique key catches it, and the payment is kept aside for reconciliation |
+| A malformed message goes to the dead-letter topic | One bad message does not stop the consumer |
+| The system of record catches up after an outage | Five payments taken while the consumer is stopped all arrive once it starts again |
+| Replaying the whole topic changes nothing | With the consumer's offsets reset to the start, the system of record ends exactly as it was |
+
+Thirteen unit tests cover the rest: the request hash, how vendor answers are classified, the rule that a request which never left fails but one that may have arrived is unknown, the back-off, every re-query decision, and the relay's message mapping. On 18 October 2026 the suite passed in five consecutive runs on one machine, three before the dead-letter test was added and two after, with no container restarting:
+
+```console
+$ REQUIRE_DEMO=1 .venv/bin/python -m pytest -q
+...........................                                              [100%]
+27 passed in 66.68s (0:01:06)
+```
+
+### What the tests caught while I built it
+
+1. **A consumer that would not let go.** Stopped with SIGTERM, the sync consumer was killed without leaving its Kafka group, so it held its partitions until its session timed out, 45 seconds by default in kafka-python 3. Its replacement sat idle, and the outage test failed on its second run. It now leaves the group when it receives SIGTERM, which is also how Amazon ECS stops a task.
+2. **A setup that could not run twice.** Turning on time to live for a table that already has it is an error, so a second run of the setup failed. It now checks first.
+
+### What the demo leaves out
+
+State revenue ([ADR-0003](decisions/0003-keep-state-revenue-payments-on-premises.md)), mutual TLS, AWS WAF, the network and IAM. The Lambda event source mapping and IAM authentication to Kafka come with the AWS run.
+
 ## Decisions
 
 | ID | Decision | Status |
@@ -255,7 +320,7 @@ These were in my own capstone work.
 | Concern | In this design | Before going to production | Well-Architected pillar |
 |---|---|---|---|
 | Data residency | Proposed: Cape Town, at most seven days ([ADR-0005](decisions/0005-run-the-cloud-tier-in-cape-town-with-seven-day-retention.md)) | Compliance's written approval | Security |
-| Proof | Checked against documentation; the demo and live run come next | A load test at 300 payments a second with each vendor's real latency | Performance Efficiency |
+| Proof | Checked against documentation, and the failure handling proven in the demo; the live run comes next | A load test at 300 payments a second with each vendor's real latency | Performance Efficiency |
 | Region failure | The on-premises gateway as fallback during the migration | A decision on a second Region, which raises residency again | Reliability |
 | Vendors | Assumes every vendor offers a status query and logs every request | Both written into each vendor's contract, with its status window | Reliability |
 | Operations | Alarms named in the decisions | Dashboards, tracing, service level objectives and runbooks for `REVIEW` and for link failures | Operational Excellence |
