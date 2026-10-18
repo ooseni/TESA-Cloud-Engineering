@@ -42,7 +42,7 @@ This is not an archive of submissions. Each module takes something I did during 
 | 11 | [RDS for SQL Server](11-rds-sql-server/) | Private SQL Server reached only through a Session Manager tunnel; SQL tested in CI against a container and live against RDS | ✅ |
 | 12 | [Terraform: VPC and EC2](12-terraform-vpc-ec2/) | My first Terraform lab, hardened: no SSH, Session Manager, IMDSv2, encryption, nginx by user data; deployed and tested live | ✅ |
 | 13 | [Infrastructure as Code CI/CD](13-iac-cicd/) | Terraform through GitHub Actions with OIDC and no stored keys: S3 state with locking, plan on every pull request, apply only the reviewed plan; deployed and destroyed by the pipeline | ✅ |
-| 14 | [Capstone: Hybrid Payments Gateway](14-capstone-payments-gateway/) | Anonymised hybrid target for a payments gateway: atomic claims in DynamoDB, state streamed through Amazon MSK to Lagos, five decision records; demo and AWS run in progress | ⬜ |
+| 14 | [Capstone: Hybrid Payments Gateway](14-capstone-payments-gateway/) | Anonymised hybrid target for a payments gateway: atomic claims in DynamoDB, state streamed through Amazon MSK to Lagos, five decision records and a decision pack; proven in a demo and a live run on AWS | ✅ |
 
 ## Skills matrix
 
