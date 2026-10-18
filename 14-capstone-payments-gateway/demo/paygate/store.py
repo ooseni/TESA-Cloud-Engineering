@@ -36,9 +36,7 @@ def plain(item: dict | None) -> dict | None:
 
 class Store:
     def __init__(self, table=None):
-        self.table = table or boto3.resource(
-            "dynamodb", region_name=config.AWS_REGION, endpoint_url=config.DYNAMODB_ENDPOINT
-        ).Table(config.TABLE_NAME)
+        self.table = table or boto3.resource("dynamodb", **config.aws_kwargs()).Table(config.TABLE_NAME)
 
     def claim(self, payment: dict, now: float | None = None) -> tuple[bool, dict]:
         """Write the payment as PENDING if its reference is new, or its earlier claim has expired.

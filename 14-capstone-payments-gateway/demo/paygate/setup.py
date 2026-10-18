@@ -1,15 +1,16 @@
 """Creates the demo's payments table, topics and system-of-record schema. Safe to run again.
-In AWS, Terraform creates the table and the topic instead (part 3)."""
+On AWS, Terraform has already created the table, so only the topics and the schema are made here."""
 import time
 from pathlib import Path
 
 import boto3
 import psycopg
 from botocore.exceptions import ClientError
-from kafka.admin import KafkaAdminClient, NewTopic
+from kafka.admin import NewTopic
 from kafka.errors import TopicAlreadyExistsError
 
 from . import config
+from .kafka_client import admin
 
 
 def retry(what: str, fn, attempts: int = 60):
@@ -24,7 +25,13 @@ def retry(what: str, fn, attempts: int = 60):
 
 
 def table() -> None:
-    ddb = boto3.client("dynamodb", region_name=config.AWS_REGION, endpoint_url=config.DYNAMODB_ENDPOINT)
+    ddb = boto3.client("dynamodb", **config.aws_kwargs())
+    try:
+        ddb.describe_table(TableName=config.TABLE_NAME)
+        return                                  # Terraform made it (AWS), or an earlier run did
+    except ClientError as e:
+        if e.response["Error"]["Code"] != "ResourceNotFoundException":
+            raise
     try:
         ddb.create_table(
             TableName=config.TABLE_NAME, BillingMode="PAY_PER_REQUEST",
@@ -50,10 +57,11 @@ def table() -> None:
 
 
 def topics() -> None:
-    admin = KafkaAdminClient(bootstrap_servers=config.KAFKA_BOOTSTRAP)
+    client = admin()
     for name, partitions in ((config.TOPIC, 12), (config.DLQ_TOPIC, 1)):
         try:
-            admin.create_topics([NewTopic(name, num_partitions=partitions, replication_factor=1)])
+            client.create_topics([NewTopic(name, num_partitions=partitions,
+                                           replication_factor=config.TOPIC_REPLICATION)])
         except TopicAlreadyExistsError:
             pass
 

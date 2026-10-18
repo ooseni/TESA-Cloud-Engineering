@@ -42,9 +42,9 @@ def handler(event: dict, context=None) -> dict:
 
 def main() -> None:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(message)s")
-    kwargs = {"region_name": config.AWS_REGION, "endpoint_url": config.DYNAMODB_ENDPOINT}
-    streams = boto3.client("dynamodbstreams", **kwargs)
-    arn = boto3.client("dynamodb", **kwargs).describe_table(TableName=config.TABLE_NAME)["Table"]["LatestStreamArn"]
+    streams = boto3.client("dynamodbstreams", **config.aws_kwargs())
+    table = boto3.client("dynamodb", **config.aws_kwargs()).describe_table(TableName=config.TABLE_NAME)
+    arn = table["Table"]["LatestStreamArn"]
     iterators: dict[str, str | None] = {}          # shard ID -> next iterator; None once a shard is closed
     while True:
         for shard in streams.describe_stream(StreamArn=arn)["StreamDescription"]["Shards"]:

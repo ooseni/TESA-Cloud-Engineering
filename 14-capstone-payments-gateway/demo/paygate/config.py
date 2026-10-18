@@ -11,10 +11,21 @@ AWS_REGION = os.environ.get("AWS_REGION", "af-south-1")
 DYNAMODB_ENDPOINT = os.environ.get("DYNAMODB_ENDPOINT") or None      # unset in AWS
 TABLE_NAME = os.environ.get("TABLE_NAME", "payments")
 
+
+def aws_kwargs() -> dict:
+    """Client settings for DynamoDB: DynamoDB Local takes any credentials, so placeholders are passed;
+    on AWS the usual credential chain applies (the instance role, or Lambda's)."""
+    if DYNAMODB_ENDPOINT is None:
+        return {"region_name": AWS_REGION}
+    return {"region_name": AWS_REGION, "endpoint_url": DYNAMODB_ENDPOINT,
+            "aws_access_key_id": "local", "aws_secret_access_key": "local"}
+
+
 KAFKA_BOOTSTRAP = os.environ.get("KAFKA_BOOTSTRAP", "localhost:9092")
 KAFKA_AUTH = os.environ.get("KAFKA_AUTH", "none")                    # none | iam (Amazon MSK)
 TOPIC = os.environ.get("KAFKA_TOPIC", "transaction-state")
 DLQ_TOPIC = TOPIC + ".dlq"
+TOPIC_REPLICATION = int(os.environ.get("TOPIC_REPLICATION", "1"))   # 2 on the two-broker MSK run
 CONSUMER_GROUP = os.environ.get("CONSUMER_GROUP", "sor-sync")
 
 SOR_DSN = os.environ.get("SOR_DSN", "postgresql://sor:sor@localhost:5432/sor")
