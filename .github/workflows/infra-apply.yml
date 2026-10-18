@@ -1,0 +1,105 @@
+name: infra-apply
+run-name: "infra ${{ inputs.operation }}, checksum ${{ inputs.plan_checksum }}"
+
+# The manual gate. Only someone with write access can start it, only on main, and it applies a plan only
+# if its checksum matches the one the person typed: the plan reviewed on the pull request, or the plan
+# shown by an earlier refused run (that is also how a destroy is reviewed before it runs).
+on:
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: "apply or destroy"
+        type: choice
+        options: [apply, destroy]
+        default: apply
+      plan_checksum:
+        description: "Checksum of the plan you reviewed"
+        type: string
+        required: true
+
+permissions:
+  contents: read
+  id-token: write   # the apply role trusts runs on main of this repository only
+
+concurrency:
+  group: infra-13-iac-cicd
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: 13-iac-cicd/stack
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
+        with:
+          role-to-assume: ${{ vars.TF_APPLY_ROLE_ARN }}
+          role-session-name: infra-apply-${{ github.run_id }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - uses: hashicorp/setup-terraform@dfe3c3f87815947d99a8997f908cb6525fc44e9e # v4.0.1
+        with:
+          terraform_version: 1.16.6   # the same in infra-plan and infra-apply, so one change prints one plan
+          terraform_wrapper: false
+
+      - name: terraform init
+        env:
+          STATE_BUCKET: ${{ vars.TF_STATE_BUCKET }}
+          REGION: ${{ vars.AWS_REGION }}
+        run: |
+          terraform init -input=false -lockfile=readonly \
+            -backend-config="bucket=$STATE_BUCKET" \
+            -backend-config="key=13-iac-cicd/stack.tfstate" \
+            -backend-config="region=$REGION"
+
+      - name: terraform plan
+        id: plan
+        env:
+          OPERATION: ${{ inputs.operation }}
+        run: |
+          mode=()
+          if [[ "$OPERATION" == destroy ]]; then mode=(-destroy); fi
+          terraform plan -input=false -no-color "${mode[@]}" -out=tfplan
+          terraform show -no-color tfplan > plan.txt
+          echo "checksum=$(sha256sum plan.txt | cut -c1-16)" >> "$GITHUB_OUTPUT"
+
+      - name: Refuse any plan but the reviewed one
+        env:
+          EXPECTED: ${{ inputs.plan_checksum }}
+          ACTUAL: ${{ steps.plan.outputs.checksum }}
+          OPERATION: ${{ inputs.operation }}
+        run: |
+          { echo "### Plan to $OPERATION, checksum \`$ACTUAL\`"; echo '```'; cat plan.txt; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          if [[ "$EXPECTED" != "$ACTUAL" ]]; then
+            echo "::error::Nothing was changed. This plan's checksum is $ACTUAL, not $EXPECTED. Review the plan in this run's summary; to go ahead, run again with $ACTUAL."
+            exit 1
+          fi
+          echo "Checksum matches the reviewed plan: going ahead."
+
+      - name: terraform apply
+        run: terraform apply -input=false -no-color tfplan
+
+      - name: Outputs
+        if: inputs.operation == 'apply'
+        run: |
+          { echo "### Outputs"; echo '```'; terraform output -no-color; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+
+      # a deployment is finished when the site answers, not when the API calls return
+      - name: Check the site answers
+        if: inputs.operation == 'apply'
+        run: |
+          url="$(terraform output -raw site_url)"
+          for _ in $(seq 1 36); do
+            page="$(curl -fsS --max-time 5 "$url/" 2>/dev/null || true)"
+            if grep -q '<title>Deployed by the pipeline</title>' <<<"$page"; then
+              echo "The site at $url serves the page."
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "::error::The site at $url did not serve the page within 3 minutes."
+          exit 1
