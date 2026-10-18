@@ -50,15 +50,12 @@ data "aws_iam_policy_document" "trust" {
 
 # What both roles need to plan: read the state, take and release the lock, and read the resources.
 data "aws_iam_policy_document" "plan" {
+  # No prefix condition: init lists the workspaces under "env:/", and without ListBucket S3 answers 403,
+  # not 404, for a state file that does not exist yet. The bucket holds this stack's state only.
   statement {
-    sid       = "ListStatePrefix"
+    sid       = "ListStateBucket"
     actions   = ["s3:ListBucket"]
     resources = [aws_s3_bucket.state.arn]
-    condition {
-      test     = "StringLike"
-      variable = "s3:prefix"
-      values   = ["${dirname(var.state_key)}/*"]
-    }
   }
 
   statement {

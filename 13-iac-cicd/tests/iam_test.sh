@@ -34,6 +34,8 @@ subject() {
 
 # ---- the plan role: read the state and the account, take the lock, change nothing
 check "plan role can read the state" allowed "$(simulate "$plan_role" s3:GetObject "$state")"
+check "plan role can list the state bucket (init lists the workspaces)" allowed \
+  "$(simulate "$plan_role" s3:ListBucket "arn:aws:s3:::$bucket")"
 check "plan role can take the state lock" allowed "$(simulate "$plan_role" s3:PutObject "$lock")"
 check "plan role can describe EC2 resources" allowed "$(simulate "$plan_role" ec2:DescribeInstances '*')"
 check "plan role cannot write the state" implicitDeny "$(simulate "$plan_role" s3:PutObject "$state")"
