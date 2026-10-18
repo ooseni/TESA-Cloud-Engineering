@@ -1,0 +1,45 @@
+name: capstone-demo
+
+# Runs the capstone's payment path in containers (DynamoDB Local, Kafka, PostgreSQL, the gateway, the
+# re-query worker, the relay and the sync consumer) and proves each row of the failure table.
+on:
+  push:
+    branches: [main]
+    paths: ["14-capstone-payments-gateway/demo/**", ".github/workflows/capstone-demo.yml"]
+  pull_request:
+    paths: ["14-capstone-payments-gateway/demo/**", ".github/workflows/capstone-demo.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  demo:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: 14-capstone-payments-gateway/demo
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Unit tests
+        run: |
+          python3 -m venv .venv
+          .venv/bin/pip install --quiet -r requirements-test.txt
+          .venv/bin/python -m pytest tests/test_units.py
+
+      - name: Start the demo
+        run: docker compose up --detach --build --wait gateway vendor requery relay consumer
+
+      - name: End-to-end tests
+        env:
+          REQUIRE_DEMO: "1"     # fail, rather than skip, if the demo is not answering
+        run: .venv/bin/python -m pytest tests/test_demo.py
+
+      - name: Logs
+        if: failure()
+        run: docker compose logs --no-color --tail 200
+
+      - name: Stop the demo
+        if: always()
+        run: docker compose down --volumes
