@@ -13,13 +13,18 @@ permissions:
 
 jobs:
   static-checks:
-    # No AWS credentials: these checks read the code only. Deploying is done from a workstation for now,
-    # and moves to a gated pipeline in module 13.
+    # No AWS credentials: these checks read the code only. Modules 10 to 12 are deployed from a workstation;
+    # module 13's stack is deployed by its own gated pipeline (infra-plan.yml, infra-apply.yml).
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        module: [10-s3-static-website/terraform, 11-rds-sql-server/terraform, 12-terraform-vpc-ec2/terraform]
+        module:
+          - 10-s3-static-website/terraform
+          - 11-rds-sql-server/terraform
+          - 12-terraform-vpc-ec2/terraform
+          - 13-iac-cicd/bootstrap
+          - 13-iac-cicd/stack
     defaults:
       run:
         working-directory: ${{ matrix.module }}
