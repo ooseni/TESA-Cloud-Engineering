@@ -2,6 +2,8 @@
 
 One record per decision, in the MADR format. Records are immutable once accepted: a changed decision gets a new record that supersedes the old one.
 
+The same decisions are presented to a review board in the [decision pack (PDF, 21 slides)](payments-gateway-adr-pack.pdf). It adds the requirements, the current-state and target diagrams, a payment's states and failure handling, the risk register with its heatmap, the cost estimate, the proof from the demo and the live run, the roadmap and the decision requested.
+
 | ID | Decision | Status | Date |
 |---|---|---|---|
 | [ADR-0001](0001-claim-each-payment-once-with-a-dynamodb-conditional-write.md) | Claim each payment once with a DynamoDB conditional write | accepted | 2026-10-18 |
