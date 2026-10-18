@@ -1,5 +1,8 @@
-"""End-to-end tests against the running demo (`docker compose up`). Each test proves one row of the
-module README's failure table. They skip when the demo is not running, unless REQUIRE_DEMO=1 (as in CI)."""
+"""End-to-end tests against the running demo. Each test proves one row of the module README's failure
+table. They skip when the demo is not running, unless REQUIRE_DEMO=1 (as in CI).
+
+Locally they run against `docker compose up`. On AWS (../aws-run) the same tests run against the real
+payments table and Amazon MSK: host_run.sh sets the TEST_* settings below and KAFKA_AUTH=iam."""
 import os
 import subprocess
 import time
@@ -11,12 +14,18 @@ import boto3
 import httpx
 import psycopg
 import pytest
+from kafka import TopicPartition
+from kafka.structs import OffsetAndMetadata
 
-from paygate import consumer
+from paygate import consumer, kafka_client
 
 DEMO = Path(__file__).resolve().parents[1]
 GATEWAY, VENDOR = "http://127.0.0.1:8080", "http://127.0.0.1:8081"
 SOR = "postgresql://sor:sor@127.0.0.1:15432/sor"
+DYNAMODB = os.environ.get("TEST_DYNAMODB_ENDPOINT", "http://127.0.0.1:8000")   # empty on AWS
+TABLE = os.environ.get("TEST_TABLE", "payments")
+KAFKA = os.environ.get("TEST_KAFKA_BOOTSTRAP", "127.0.0.1:29092")
+TOPIC, GROUP = "transaction-state", "sor-sync"
 
 
 def _running() -> bool:
@@ -70,14 +79,28 @@ def in_sor(payment_id: str, status: str):
     return check
 
 
-def compose(*args: str, stdin: str | None = None, check: bool = True) -> str:
-    return subprocess.run(["docker", "compose", *args], cwd=DEMO, check=check, capture_output=True,
-                          text=True, input=stdin).stdout
+def compose(*args: str) -> str:
+    return subprocess.run(["docker", "compose", *args], cwd=DEMO, check=True, capture_output=True,
+                          text=True).stdout
 
 
-def kafka(tool: str, *args: str, **kwargs) -> str:
-    return compose("exec", "-T", "kafka", f"/opt/kafka/bin/{tool}.sh", "--bootstrap-server", "kafka:9092",
-                   *args, **kwargs)
+def offsets(action: str) -> int:
+    """For the sync consumer's group: "lag" returns how many messages it has still to read; "rewind"
+    moves it back to the start of the topic (it must be stopped). Uses a consumer that assigns the
+    partitions itself, so it never joins the group or disturbs a running member."""
+    reader = kafka_client.consumer(group=GROUP, bootstrap=KAFKA)
+    try:
+        partitions = [TopicPartition(TOPIC, n) for n in sorted(reader.partitions_for_topic(TOPIC))]
+        if action == "rewind":
+            reader.assign(partitions)
+            reader.seek_to_beginning(*partitions)
+            reader.commit({tp: OffsetAndMetadata(reader.position(tp), "", -1) for tp in partitions})
+            return 0
+        ends = reader.end_offsets(partitions)
+        committed = {tp: reader.committed(tp) for tp in partitions}
+        return sum(ends[tp] - getattr(committed[tp], "offset", committed[tp] or 0) for tp in partitions)
+    finally:
+        reader.close(autocommit=False)
 
 
 def consumer_container(action: str) -> None:
@@ -155,8 +178,9 @@ def test_a_vendor_that_keeps_erroring_sends_the_payment_to_review():
 def test_a_claim_left_by_a_stopped_task_is_recovered():
     """A task that stops between the claim and the vendor call leaves a PENDING claim and nothing sent."""
     reference, now = ref(), int(time.time())
-    table = boto3.resource("dynamodb", region_name="af-south-1", endpoint_url="http://127.0.0.1:8000",
-                           aws_access_key_id="local", aws_secret_access_key="local").Table("payments")
+    local = {"endpoint_url": DYNAMODB, "aws_access_key_id": "local", "aws_secret_access_key": "local"}
+    table = boto3.resource("dynamodb", region_name=os.environ.get("AWS_REGION", "af-south-1"),
+                           **(local if DYNAMODB else {})).Table(TABLE)
     payment_id = str(uuid.uuid4())
     table.put_item(Item={
         "pk": f"ussd#{reference}", "payment_id": payment_id, "channel": "ussd", "reference": reference,
@@ -192,13 +216,18 @@ def test_a_reference_reused_after_the_window_is_flagged_not_lost():
 
 
 def test_a_malformed_message_goes_to_the_dead_letter_topic():
-    marker = f"not-json-{uuid.uuid4().hex[:8]}"
-    kafka("kafka-console-producer", "--topic", "transaction-state", stdin=marker + "\n")
+    marker = f"not-json-{uuid.uuid4().hex[:8]}".encode()
+    producer = kafka_client.producer(KAFKA)
+    producer.send(TOPIC, value=marker).get(timeout=30)
+    producer.close()
 
     def in_dead_letters():
-        return marker in kafka("kafka-console-consumer", "--topic", "transaction-state.dlq", "--from-beginning",
-                               "--timeout-ms", "3000", check=False)
-    wait_for(in_dead_letters, timeout=40, every=1)
+        reader = kafka_client.consumer(TOPIC + ".dlq", group=None, bootstrap=KAFKA, consumer_timeout_ms=3000)
+        try:
+            return any(message.value == marker for message in reader)
+        finally:
+            reader.close(autocommit=False)
+    wait_for(in_dead_letters, timeout=60, every=1)
 
 
 def test_the_system_of_record_catches_up_after_an_outage():
@@ -213,23 +242,25 @@ def test_the_system_of_record_catches_up_after_an_outage():
         wait_for(in_sor(p, "SUCCESS"), timeout=40)
 
 
+def replay_whole_topic() -> None:
+    consumer_container("stop")
+    try:
+        offsets("rewind")
+        assert offsets("lag") > 0, "the whole topic should be waiting to be read again"
+    finally:
+        consumer_container("start")
+    wait_for(lambda: offsets("lag") == 0, timeout=90, every=2)
+
+
 def test_replaying_the_whole_topic_changes_nothing():
+    """The first replay brings the system of record up to everything on the topic: a database restored
+    from an older backup, as on the AWS run, gets back every payment it missed. The second must change
+    nothing at all."""
     def snapshot():
         with psycopg.connect(SOR) as conn:
             return conn.execute("SELECT payment_id, status, version, token FROM payments ORDER BY 1").fetchall()
 
+    replay_whole_topic()
     before = snapshot()
-    consumer_container("stop")
-    try:
-        kafka("kafka-consumer-groups", "--group", "sor-sync", "--topic", "transaction-state", "--reset-offsets",
-              "--to-earliest", "--execute")
-    finally:
-        consumer_container("start")
-
-    def caught_up():
-        out = kafka("kafka-consumer-groups", "--group", "sor-sync", "--describe")
-        lags = [line.split()[5] for line in out.splitlines() if line.startswith("sor-sync")]
-        return lags and all(lag == "0" for lag in lags)
-
-    wait_for(caught_up, timeout=60, every=2)
+    replay_whole_topic()
     assert snapshot() == before
