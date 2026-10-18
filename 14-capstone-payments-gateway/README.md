@@ -1,13 +1,13 @@
 # 14 | Capstone: hybrid modernisation of a payments gateway
 
-**Capstone:** 10 to 14 April 2026 | **Type:** TeSA capstone, an internship week with a cloud consultancy; the client is not named | **Status:** design complete and proven in a runnable demo; a live AWS run is in progress
+**Capstone:** 10 to 14 April 2026 | **Type:** TeSA capstone, an internship week with a cloud consultancy; the client is not named | **Status:** design complete, proven in a runnable demo and in a live run on AWS
 
 **At a glance**
 
 - **Outcome:** a hybrid target design for a Nigerian payment processor's bill and top-up gateway. Three products move to AWS; the system of record and state revenue stay in Lagos. No payment can be delivered twice, none is lost once accepted, and payments keep flowing when the link to Lagos is down.
-- **Built:** the target, network and current-state diagrams; five decision records; requirements I set, a failure-handling table and a monthly cost estimate; the current and target payment flows as sequence diagrams; and a demo of the payment path in Docker Compose, with 27 tests.
-- **Stack:** Application Load Balancer with AWS WAF and mutual TLS, Amazon ECS on AWS Fargate, Amazon DynamoDB with DynamoDB Streams, AWS Lambda, Amazon MSK, AWS Transit Gateway, AWS Site-to-Site VPN, AWS Direct Connect, IAM Roles Anywhere; for the demo, Python, FastAPI, DynamoDB Local, Apache Kafka, PostgreSQL and pytest.
-- **Proof:** the demo's 27 tests pass on every run: twenty identical requests at once are delivered once; late, lost and failing vendors settle exactly as ADR-0004 says; the system of record catches up after an outage, and replaying the whole topic changes nothing. Every design claim is checked against AWS documentation, and every price comes from the AWS Price List API (about $2,690 a month at 3 million payments a day). A short run of the same code on DynamoDB, Lambda and MSK comes next.
+- **Built:** the target, network and current-state diagrams; five decision records; requirements I set, a failure-handling table and a monthly cost estimate; the current and target payment flows as sequence diagrams; a demo of the payment path in Docker Compose, with 27 tests; and a Terraform live run that runs the same code and tests on real AWS services.
+- **Stack:** Application Load Balancer with AWS WAF and mutual TLS, Amazon ECS on AWS Fargate, Amazon DynamoDB with DynamoDB Streams, AWS Lambda, Amazon MSK, AWS Transit Gateway, AWS Site-to-Site VPN, AWS Direct Connect, IAM Roles Anywhere; for the demo, Python, FastAPI, DynamoDB Local, Apache Kafka, PostgreSQL and pytest; for the live run, Terraform and Systems Manager Run Command.
+- **Proof:** on 18 October 2026 the same 27 tests passed on AWS, against DynamoDB, the Lambda relay on the table's stream and Amazon MSK with IAM authentication: 75 relay invocations, 0 errors, then everything destroyed. They also pass locally and in GitHub Actions on every change: twenty identical requests at once are delivered once; late, lost and failing vendors settle exactly as ADR-0004 says; the system of record catches up after an outage, and replaying the whole topic changes nothing. Every design claim is checked against AWS documentation, and every price comes from the AWS Price List API (about $2,690 a month at 3 million payments a day).
 
 <img alt="Hybrid target: channels reach a gateway on ECS in Cape Town; DynamoDB claims each payment; state changes stream through Lambda and MSK to a consumer in Lagos" src="diagrams/dark/payments-gateway-target.png">
 
@@ -274,7 +274,7 @@ It needs about 1.5 GB of memory. The [`capstone-demo`](../.github/workflows/caps
 | A reference reused after the window is flagged, not lost | The system of record's unique key catches it, and the payment is kept aside for reconciliation |
 | A malformed message goes to the dead-letter topic | One bad message does not stop the consumer |
 | The system of record catches up after an outage | Five payments taken while the consumer is stopped all arrive once it starts again |
-| Replaying the whole topic changes nothing | With the consumer's offsets reset to the start, the system of record ends exactly as it was |
+| Replaying the whole topic changes nothing | With the consumer's offsets reset to the start, a first replay brings the system of record up to date, and a second leaves it exactly as it was |
 
 Thirteen unit tests cover the rest: the request hash, how vendor answers are classified, the rule that a request which never left fails but one that may have arrived is unknown, the back-off, every re-query decision, and the relay's message mapping. On 18 October 2026 the suite passed in five consecutive runs on one machine, three before the dead-letter test was added and two after, with no container restarting:
 
@@ -291,7 +291,64 @@ $ REQUIRE_DEMO=1 .venv/bin/python -m pytest -q
 
 ### What the demo leaves out
 
-State revenue ([ADR-0003](decisions/0003-keep-state-revenue-payments-on-premises.md)), mutual TLS, AWS WAF, the network and IAM. The Lambda event source mapping and IAM authentication to Kafka come with the AWS run.
+State revenue ([ADR-0003](decisions/0003-keep-state-revenue-payments-on-premises.md)), mutual TLS, AWS WAF, the network and IAM. The Lambda event source mapping and IAM authentication to Kafka are covered by the live run.
+
+## The live run on AWS
+
+The demo stands in for three AWS services. The [live run](aws-run/) replaces those stand-ins with the real services, runs the same code, and runs the same 27 tests against them.
+
+| Part | In the run | In the design |
+|---|---|---|
+| Payments table | Amazon DynamoDB, on demand, with its stream, the re-query index, time to live and point-in-time recovery | The same, encrypted with a customer managed key |
+| Relay | The demo's `paygate.relay.handler`, unchanged, as an AWS Lambda function in the VPC, fed by an event source mapping on the table's stream, with an Amazon SQS queue for batches it cannot publish | The same |
+| Event log | Amazon MSK, Kafka 3.9, 2 `kafka.t3.small` brokers in two zones, IAM authentication over TLS only | 3 `kafka.m7g.large` brokers in three zones |
+| Gateway, re-query worker, sync consumer, vendor mock, system of record | The demo's containers on one Ubuntu instance, with no inbound rule, driven through Systems Manager Run Command; credentials from its instance role | ECS on Fargate; the consumer and database in Lagos |
+| Region and links | Europe (London) eu-west-2; the host reaches the brokers inside the VPC | Africa (Cape Town), with Direct Connect to Lagos ([ADR-0005](decisions/0005-run-the-cloud-tier-in-cape-town-with-seven-day-retention.md), proposed) |
+
+The Region differs because opting this account into Cape Town is an account setting change; nothing in the run depends on the Region.
+
+### Running it
+
+```bash
+cd 14-capstone-payments-gateway/aws-run
+bash bundle.sh                       # the Lambda zip and the demo bundle, reproducible byte for byte
+cd terraform
+terraform init && terraform apply    # 42 resources; Amazon MSK takes about 35 minutes
+cd .. && bash run.sh                 # the whole suite on the host, through Run Command
+cd terraform && terraform destroy    # about 25 minutes, most of it waiting for Lambda's network interfaces
+```
+
+While it runs, it costs about $0.16 an hour in eu-west-2: $0.103 for the two brokers, $0.047 for the `t3.medium` host and $0.005 for its public IPv4 address. DynamoDB, Lambda, SQS and S3 cost pennies. The run on 18 October 2026 was up for about two hours, about $0.35.
+
+### Results
+
+On 18 October 2026 the suite passed against the real services, then everything was destroyed:
+
+```console
+$ bash run.sh
+running the suite on i-0c996f4bab300b152
+tests/test_demo.py::test_a_payment_succeeds_and_reaches_the_system_of_record PASSED
+tests/test_demo.py::test_twenty_identical_requests_at_once_are_delivered_once PASSED
+...
+tests/test_demo.py::test_the_system_of_record_catches_up_after_an_outage PASSED
+tests/test_demo.py::test_replaying_the_whole_topic_changes_nothing PASSED
+...
+============================= 27 passed in 55.28s ==============================
+command status: Success
+```
+
+From AWS's own metrics for the run: the relay ran 75 times with 0 errors, the oldest change waited at most 2.1 seconds in the stream before it was published, the failure queue stayed empty, and the event source mapping ended `Enabled` with its last result `OK`. After `terraform destroy`, AWS reported no table, cluster, function, VPC, bucket, role, log group or network interface left from the run.
+
+### What the live run caught
+
+The suite passed on the third run. Each of these was found by running it, and is fixed in the code:
+
+1. **The wrong import for IAM authentication.** kafka-python 3 moved its token provider to `kafka.net.sasl.oauth`, so the IAM path would have crashed on its first connection. Importing it from the built Lambda zip before deploying caught it.
+2. **Credentials set to nothing.** Blanking the demo's placeholder keys for AWS would have stopped boto3 from falling back to the instance role: an empty `AWS_ACCESS_KEY_ID` is an error, not an absence. The code now passes placeholder keys only when it talks to DynamoDB Local.
+3. **A tag value most services refuse.** A semicolon in the `Purpose` tag passed EC2 but failed DynamoDB, S3, IAM, CloudWatch Logs and SQS, which allow only letters, digits, spaces and `_ . : / = + - @`.
+4. **No small KRaft brokers.** MSK offers `kafka.t3.small` only for ZooKeeper-based clusters, so the run uses Kafka 3.9 in that mode; clients see the same protocol.
+5. **Run Command's shell.** Run Command uses `/bin/sh`, which on Ubuntu has no `pipefail`, and keeps only the first 24,000 characters of output; the host script now logs its set-up to a file and prints only the results.
+6. **A test that assumed a fresh topic.** The second run reset the system of record but not the topic, so replaying the topic added 13 payments the reset database had missed: the recovery [ADR-0002](decisions/0002-sync-the-system-of-record-through-dynamodb-streams-and-amazon-msk.md) promises, but not what the test expected. The test now replays twice: the first replay brings the system of record up to date, and the second must change nothing.
 
 ## Decisions
 
@@ -320,7 +377,7 @@ These were in my own capstone work.
 | Concern | In this design | Before going to production | Well-Architected pillar |
 |---|---|---|---|
 | Data residency | Proposed: Cape Town, at most seven days ([ADR-0005](decisions/0005-run-the-cloud-tier-in-cape-town-with-seven-day-retention.md)) | Compliance's written approval | Security |
-| Proof | Checked against documentation, and the failure handling proven in the demo; the live run comes next | A load test at 300 payments a second with each vendor's real latency | Performance Efficiency |
+| Proof | The failure handling proven in the demo, and again on DynamoDB, Lambda and Amazon MSK in a live run | A load test at 300 payments a second with each vendor's real latency | Performance Efficiency |
 | Region failure | The on-premises gateway as fallback during the migration | A decision on a second Region, which raises residency again | Reliability |
 | Vendors | Assumes every vendor offers a status query and logs every request | Both written into each vendor's contract, with its status window | Reliability |
 | Operations | Alarms named in the decisions | Dashboards, tracing, service level objectives and runbooks for `REVIEW` and for link failures | Operational Excellence |
