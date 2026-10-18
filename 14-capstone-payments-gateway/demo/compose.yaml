@@ -1,0 +1,105 @@
+# The capstone's payment path on one machine: DynamoDB Local for the payments table, one Kafka broker for
+# Amazon MSK, PostgreSQL for the system of record in Lagos, and a mock vendor that can fail on demand.
+# Timings are shortened so the failure tests finish in seconds; the defaults in paygate/config.py are the
+# design's production values. Ports are bound to 127.0.0.1 only, for the tests.
+name: paygate
+
+x-app: &app
+  build: .
+  image: paygate-demo:local
+  environment: &env
+    AWS_REGION: af-south-1
+    AWS_ACCESS_KEY_ID: local          # DynamoDB Local accepts any credentials; these are not secrets
+    AWS_SECRET_ACCESS_KEY: local
+    DYNAMODB_ENDPOINT: http://dynamodb:8000
+    KAFKA_BOOTSTRAP: kafka:9092
+    SOR_DSN: postgresql://sor:sor@sor:5432/sor
+    VENDOR_URL: http://vendor:8080
+    VENDOR_TIMEOUT: "2"
+    REQUERY_DELAYS: "1,1,2"
+    REQUERY_WINDOW: "8"
+    STALE_PENDING: "4"
+    WORKER_POLL: "0.5"
+  restart: unless-stopped
+
+services:
+  dynamodb:
+    image: amazon/dynamodb-local:3.1.0
+    command: ["-Xmx512m", "-jar", "DynamoDBLocal.jar", "-inMemory", "-sharedDb"]
+    ports: ["127.0.0.1:8000:8000"]
+
+  kafka:
+    image: apache/kafka:3.9.1
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_HEAP_OPTS: -Xmx512m -Xms512m
+    healthcheck:
+      test: ["CMD", "/opt/kafka/bin/kafka-broker-api-versions.sh", "--bootstrap-server", "kafka:9092"]
+      interval: 5s
+      timeout: 10s
+      retries: 24
+
+  sor:
+    image: postgres:17.6-alpine
+    environment:
+      POSTGRES_USER: sor
+      POSTGRES_PASSWORD: sor          # a throwaway local database
+      POSTGRES_DB: sor
+    ports: ["127.0.0.1:15432:5432"]
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "sor"]
+      interval: 3s
+      retries: 20
+
+  setup:
+    <<: *app
+    command: ["python", "-m", "paygate.setup"]
+    restart: "no"
+    depends_on:
+      dynamodb: {condition: service_started}
+      kafka: {condition: service_healthy}
+      sor: {condition: service_healthy}
+
+  vendor:
+    <<: *app
+    command: ["uvicorn", "paygate.vendor_mock:app", "--host", "0.0.0.0", "--port", "8080"]
+    environment:
+      <<: *env
+      VENDOR_LATE_SECONDS: "4"
+    ports: ["127.0.0.1:8081:8080"]
+
+  gateway:
+    <<: *app
+    command: ["uvicorn", "paygate.gateway:app", "--host", "0.0.0.0", "--port", "8080"]
+    ports: ["127.0.0.1:8080:8080"]
+    depends_on: &ready
+      setup: {condition: service_completed_successfully}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/health')"]
+      interval: 3s
+      retries: 20
+
+  requery:
+    <<: *app
+    command: ["python", "-m", "paygate.requery"]
+    depends_on: *ready
+
+  relay:
+    <<: *app
+    command: ["python", "-m", "paygate.relay"]
+    depends_on: *ready
+
+  consumer:
+    <<: *app
+    command: ["python", "-m", "paygate.consumer"]
+    depends_on: *ready

@@ -1,0 +1,7 @@
+aws-msk-iam-sasl-signer-python==1.0.2
+boto3==1.43.108
+fastapi==0.142.2
+httpx==0.28.1
+kafka-python==3.0.11
+psycopg[binary]==3.3.6
+uvicorn==0.54.0
