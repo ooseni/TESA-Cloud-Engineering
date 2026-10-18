@@ -1,0 +1,84 @@
+name: infra-plan
+
+# Plans module 13's stack on every pull request that changes it, with a read-only role, and posts the plan
+# and its checksum on the pull request. Applying is a separate, manual step (infra-apply.yml).
+on:
+  pull_request:
+    paths: ["13-iac-cicd/stack/**", ".github/workflows/infra-plan.yml"]
+
+permissions:
+  contents: read
+  id-token: write        # to request the OIDC token that AWS exchanges for short-lived credentials
+  pull-requests: write   # to post the plan
+
+concurrency:
+  group: infra-13-iac-cicd   # shared with infra-apply, so a plan never races an apply for the state lock
+  cancel-in-progress: false
+
+jobs:
+  plan:
+    # pull requests from forks get no OIDC token; plan only this repository's own branches
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: 13-iac-cicd/stack
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
+        with:
+          role-to-assume: ${{ vars.TF_PLAN_ROLE_ARN }}
+          role-session-name: infra-plan-${{ github.run_id }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - uses: hashicorp/setup-terraform@dfe3c3f87815947d99a8997f908cb6525fc44e9e # v4.0.1
+        with:
+          terraform_version: 1.16.6   # the same in infra-plan and infra-apply, so one change prints one plan
+          terraform_wrapper: false
+
+      - name: terraform init
+        env:
+          STATE_BUCKET: ${{ vars.TF_STATE_BUCKET }}
+          REGION: ${{ vars.AWS_REGION }}
+        run: |
+          terraform init -input=false -lockfile=readonly \
+            -backend-config="bucket=$STATE_BUCKET" \
+            -backend-config="key=13-iac-cicd/stack.tfstate" \
+            -backend-config="region=$REGION"
+
+      - name: terraform fmt and validate
+        run: |
+          terraform fmt -check -diff
+          terraform validate -no-color
+
+      - name: terraform plan
+        id: plan
+        run: |
+          terraform plan -input=false -no-color -out=tfplan
+          terraform show -no-color tfplan > plan.txt
+          echo "checksum=$(sha256sum plan.txt | cut -c1-16)" >> "$GITHUB_OUTPUT"
+
+      - name: Post the plan and its checksum
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+          CHECKSUM: ${{ steps.plan.outputs.checksum }}
+        run: |
+          {
+            echo "### Terraform plan for module 13"
+            echo
+            echo "Plan checksum: \`$CHECKSUM\`"
+            echo
+            echo "After merging, apply exactly this plan: **Actions > infra-apply > Run workflow** on \`main\`,"
+            echo "operation \`apply\`, checksum \`$CHECKSUM\`. If anything has changed since, the run refuses."
+            echo
+            echo "<details><summary>Plan</summary>"
+            echo
+            echo '```'
+            cat plan.txt
+            echo '```'
+            echo "</details>"
+          } > comment.md
+          gh pr comment "$PR" --body-file comment.md
+          cat comment.md >> "$GITHUB_STEP_SUMMARY"
