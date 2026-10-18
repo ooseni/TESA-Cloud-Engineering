@@ -1,13 +1,20 @@
 # TESA Cloud Engineering
 
-Labs, design exercises and infrastructure code from the **TeSA Cloud Engineering Cohort** (February to April 2026), rebuilt, corrected and tested after the programme: AWS networking, security groups and network ACLs, EC2, S3, RDS, Terraform and CI/CD, with AWS architecture diagrams.
+Labs, design exercises and infrastructure code from the **TeSA Cloud Engineering Cohort** (February to April 2026), rebuilt, corrected and tested after the programme: AWS networking, security groups and network ACLs, EC2, S3, RDS, Terraform and CI/CD with OIDC, and a hybrid payments-gateway capstone on DynamoDB, Lambda and Amazon MSK, with AWS architecture diagrams and decision records.
 
 [![shell](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/shell.yml/badge.svg)](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/shell.yml)
 [![python](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/python.yml/badge.svg)](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/python.yml)
 [![terraform](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/terraform.yml/badge.svg)](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/terraform.yml)
 [![sql](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/sql.yml/badge.svg)](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/sql.yml)
+[![capstone-demo](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/capstone-demo.yml/badge.svg)](https://github.com/ooseni/TESA-Cloud-Engineering/actions/workflows/capstone-demo.yml)
 
-**Tested on every push:** ShellCheck and 7 backup and restore tests (module 01), 12 subnet planner tests (module 03), 33 routing checker tests plus two design audits (module 05), 25 filter checker tests plus two design audits (module 06), 8 end-to-end deploy tests on a real Ubuntu 24.04 machine (module 07), Terraform format, validation, tflint and checkov security checks (modules 10 to 13), and 13 SQL tests against SQL Server 2022 Express in a container (module 11), all passing in GitHub Actions. The badges above show the live status.
+**Tested on every push:** ShellCheck and 7 backup and restore tests (module 01), 12 subnet planner tests (module 03), 33 routing checker tests plus two design audits (module 05), 25 filter checker tests plus two design audits (module 06), 8 end-to-end deploy tests on a real Ubuntu 24.04 machine (module 07), Terraform format, validation, tflint and checkov security checks (modules 10 to 14), 13 SQL tests against SQL Server 2022 Express in a container (module 11), and 27 capstone tests, 13 unit tests and 14 end-to-end tests against the demo running in Docker Compose (module 14), all passing in GitHub Actions. The badges above show the live status.
+
+## Start here
+
+- **[Capstone: hybrid payments gateway](14-capstone-payments-gateway/)**: no payment delivered twice and none lost, proven by 27 tests locally, in GitHub Actions and in a live run on DynamoDB, Lambda and Amazon MSK; five decision records and a 21-slide decision pack.
+- **[Infrastructure as Code CI/CD](13-iac-cicd/)**: Terraform through GitHub Actions with OIDC and no stored keys; the pipeline applies only the plan that was reviewed.
+- **[Network design studies](09-network-design-studies/)**: four anonymised designs with route, security group and network ACL tables and inbound and outbound traffic diagrams.
 
 ## About the programme
 
@@ -18,8 +25,8 @@ The Tech Skills Accelerator Programme (TeSA), run by Univaciti, is an intensive 
 This is not an archive of submissions. Each module takes something I did during the programme and rebuilds it to the standard I would ship today:
 
 - **Problems are restated in my own words.** No course material, exercise briefs or slides are reproduced.
-- **Mistakes are fixed and shown.** Every module has a "Mistakes I fixed" section that names what was wrong in my original work and what changed.
-- **Labs are compared with production.** Every module ends with a table showing how the lab would change in production, tagged by [AWS Well-Architected](https://aws.amazon.com/architecture/well-architected/) pillar.
+- **Mistakes are fixed and shown.** Every module rebuilt from my own work has a "Mistakes I fixed" section that names what was wrong and what changed. Questions I answered for the first time after the programme have "Traps I avoided" instead.
+- **Labs are compared with production.** Every module ends with a table showing how the lab or design would change in production, tagged by [AWS Well-Architected](https://aws.amazon.com/architecture/well-architected/) pillar.
 - **Evidence is redacted.** Account IDs, IP addresses, user names and other people's details are removed from transcripts and screenshots. The training sandbox the labs ran in has since been decommissioned.
 - **Design studies are anonymised.** Company names, domains and address ranges in the design studies are fictional, and client details from the internship week are withheld.
 
@@ -48,15 +55,18 @@ This is not an archive of submissions. Each module takes something I did during 
 
 | Skill | Modules |
 |---|---|
-| Linux and Bash scripting | 01, 07 |
-| Python tooling and unit tests | 03, 05, 06 |
-| VPC design, CIDR, subnets and routing | 03, 04, 05, 09 |
-| Network security: security groups, network ACLs, inspection | 06, 09 |
+| Linux and Bash scripting | 01, 07, 13, 14 |
+| Python tooling and unit tests | 03, 05, 06, 14 |
+| VPC design, CIDR, subnets and routing | 03, 04, 05, 09, 14 |
+| Network security: security groups, network ACLs, inspection, AWS WAF, mutual TLS | 06, 09, 14 |
 | Compute: EC2, user data | 07, 12 |
 | Storage and content delivery: S3, CloudFront | 10 |
-| Databases: Amazon RDS, SQL | 11 |
-| Infrastructure as Code: Terraform | 10, 11, 12, 13 |
-| CI/CD: GitHub Actions | 01, 03, 05, 06, 07, 13 |
+| Databases: Amazon RDS, SQL, DynamoDB | 11, 14 |
+| Event-driven and serverless: DynamoDB Streams, AWS Lambda, Amazon MSK | 14 |
+| Containers: Docker, Docker Compose | 14 |
+| Hybrid cloud: Direct Connect, Site-to-Site VPN, data residency | 02, 08, 14 |
+| Infrastructure as Code: Terraform | 10, 11, 12, 13, 14 |
+| CI/CD: GitHub Actions, OIDC | 01, 03, 05, 06, 07, 11, 13, 14 |
 | Architecture and decision records | 02, 08, 09, 14 |
 
 ## How each module is laid out
@@ -66,8 +76,8 @@ This is not an archive of submissions. Each module takes something I did during 
 3. **What I did in the lab**, with redacted evidence.
 4. **The rebuilt solution**: code, diagrams, rule and route tables.
 5. **How it is tested**, where there is code to test.
-6. **Mistakes I fixed.**
-7. **Lab vs production**, by Well-Architected pillar.
+6. **Mistakes I fixed**, or **Traps I avoided** for a new answer.
+7. **Lab vs production** (design vs production for a study), by Well-Architected pillar.
 8. **What I learned.**
 
 AWS diagrams use the official AWS Architecture Icons and are kept as editable draw.io files alongside SVG and PNG exports. To zoom into any diagram, right-click it and open the image in a new tab.
