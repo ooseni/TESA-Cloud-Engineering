@@ -25,6 +25,7 @@ jobs:
           - 12-terraform-vpc-ec2/terraform
           - 13-iac-cicd/bootstrap
           - 13-iac-cicd/stack
+          - 14-capstone-payments-gateway/aws-run/terraform
     defaults:
       run:
         working-directory: ${{ matrix.module }}
