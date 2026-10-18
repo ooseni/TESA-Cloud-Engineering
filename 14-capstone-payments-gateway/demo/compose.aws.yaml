@@ -1,0 +1,22 @@
+# The live run on AWS (../aws-run): the same containers, pointed at the real payments table and Amazon MSK
+# instead of DynamoDB Local and the local broker. The relay runs as an AWS Lambda function on the table's
+# stream, so its container is not started. Credentials come from the host's instance role, through the
+# metadata service; nothing is stored. Used as COMPOSE_FILE=compose.yaml:compose.aws.yaml, with
+# AWS_REGION, TABLE_NAME and KAFKA_BOOTSTRAP set by host_run.sh.
+x-aws: &aws
+  AWS_REGION: ${AWS_REGION}
+  DYNAMODB_ENDPOINT: ""            # empty: the real DynamoDB, with the instance role's credentials
+  TABLE_NAME: ${TABLE_NAME}
+  KAFKA_BOOTSTRAP: ${KAFKA_BOOTSTRAP}
+  KAFKA_AUTH: iam
+  TOPIC_REPLICATION: "2"
+
+services:
+  setup:
+    environment: *aws
+  gateway:
+    environment: *aws
+  requery:
+    environment: *aws
+  consumer:
+    environment: *aws
